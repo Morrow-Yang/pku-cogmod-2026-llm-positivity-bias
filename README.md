@@ -1,3 +1,5 @@
+This is the repository for the final project of the Introduction to Cognitive Modelling (26Spring), Peking University, instructed by Prof. Hang Zhang.
+
 ## How to reproduce
 
 The work runs on a single GPU machine with Llama-3.1-8B-Instruct (Meta) and Llama-3.1-8B base, both downloaded from Hugging Face. No fine-tuning, no activation steering — only forward passes and (for Study 4) hidden-state extraction.
