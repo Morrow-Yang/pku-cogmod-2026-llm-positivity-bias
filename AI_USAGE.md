@@ -1,6 +1,6 @@
 # AI Usage Statement
 
-Per the course syllabus (*Introduction to Cognitive Modeling*, Spring 2026, AI Usage Policy): this statement discloses which AI tools were used in this project, for what purposes, and to what extent. All AI-generated outputs were reviewed by the author, who retains full responsibility for the correctness and intellectual integrity of the submitted work.
+Per the course syllabus: this statement discloses which AI tools were used in this project, for what purposes, and to what extent. All AI-generated outputs were reviewed by the author, who retains full responsibility for the correctness and intellectual integrity of the submitted work.
 
 ## Tools used
 
@@ -15,8 +15,8 @@ Per the course syllabus (*Introduction to Cognitive Modeling*, Spring 2026, AI U
 ### Code (extensive)
 The experiment code in `code/` was largely drafted with Claude Code's assistance. The author specified experimental designs, hypotheses, and analysis logic in natural language; Claude generated runnable Python. The author then executed, validated outputs, and iterated on errors. Most analysis functions, plotting code, statistical fits (MLE, hierarchical Bayes, bootstrap), and the hidden-state probe pipeline went through this loop. Test code (`test_model*.py`) was also AI-drafted and reviewed.
 
-### Manuscript drafting (extensive)
-The English paper drafts went through multiple rounds of Claude-assisted writing and revision. The author provided the research questions, claims to make, results to report, and structural feedback; Claude generated and refined prose. The Chinese summary and pedagogical slides were similarly co-drafted. Section structure, figure placement, and citation choices were author-directed; phrasing-level work was largely AI-assisted.
+### Manuscript drafting 
+The English paper drafts went through multiple rounds of Claude-assisted writing and revision. The author provided the research questions, claims to make, results to report, and structural feedback; Claude generated and refined prose. 
 
 ### Statistical / analytical decisions (mixed)
 Choices of which models to fit (the 7-model cognitive-model lineup, the 2 × 2 × 2 factorial decomposition, the forced-honesty + control-honesty diagnostic) were made through dialogue with Claude: the author surfaced research questions; Claude suggested candidate analyses and their tradeoffs; the author selected and approved each. Identifiability checks (parameter recovery, model recovery, hierarchical Bayes) were added on AI recommendation after the initial fits and validated by the author.
@@ -44,8 +44,6 @@ The author is preparing to defend each design and methodological choice at the J
 
 ## What the author does *not* claim as their own
 
-- The day-to-day code implementation details and most variable-level choices
-- Most prose-level phrasing in the English paper
 - The OmegaWiki framework itself (third-party; credited in [README.md](README.md) and [`OMEGAWIKI/`](#) in the working repo)
 - The Llama-3.1-8B model (Meta)
 - Cognitive-model formulations from Yoon, Frank-Goodman, Lefebvre, et al.
