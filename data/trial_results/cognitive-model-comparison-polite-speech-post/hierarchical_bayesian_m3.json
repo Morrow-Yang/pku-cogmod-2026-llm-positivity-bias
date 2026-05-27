@@ -1,0 +1,57 @@
+{
+  "model": "hierarchical_bayesian_M3_asym",
+  "n_observations": 710,
+  "n_targets": 9,
+  "free_stages": [
+    "M1",
+    "M2",
+    "M3"
+  ],
+  "max_rhat": 1.0,
+  "min_ess_bulk": 673.0,
+  "stage_contrasts": {
+    "M1": {
+      "alpha_pos_mean": 0.3954225368044265,
+      "alpha_pos_hdi": [
+        0.22501017791875,
+        0.5908982013151234
+      ],
+      "alpha_neg_mean": 0.013252549456007815,
+      "alpha_neg_hdi": [
+        0.00031932456492796314,
+        0.051614971857080374
+      ]
+    },
+    "M2": {
+      "alpha_pos_mean": 0.6320500360369335,
+      "alpha_pos_hdi": [
+        0.39892589723451494,
+        0.8698279454729917
+      ],
+      "alpha_neg_mean": 0.010358844919628858,
+      "alpha_neg_hdi": [
+        0.00019586871489305388,
+        0.04275362751263898
+      ]
+    },
+    "M3": {
+      "alpha_pos_mean": 0.16139341755820055,
+      "alpha_pos_hdi": [
+        0.05410682767194567,
+        0.2889757644890044
+      ],
+      "alpha_neg_mean": 0.512304647387613,
+      "alpha_neg_hdi": [
+        0.2856100881571831,
+        0.9570691692491601
+      ]
+    }
+  },
+  "M3_diff": {
+    "posterior_mean": 0.3509112298294125,
+    "hdi_2.5_pct": 0.06537866358554593,
+    "hdi_97.5_pct": 0.826328475418459,
+    "P_diff_gt_0": 0.9955
+  },
+  "interpretation": "M3 inversion SUPPORTED (95% HDI strictly above zero)"
+}

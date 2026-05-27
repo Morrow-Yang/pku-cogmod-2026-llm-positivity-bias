@@ -1,0 +1,22 @@
+# Stage 1 — 4-model post-training mediation experiment
+# Total trials estimate:
+#   Pre-rating cells (C0-C4): 6 targets + 1 calibration × 50 prompts × 5 seeds = 1750 / cell × 5 cells = 8750
+#     (For pre-rating, seeds give identical values since no sampling; we run 5 to match scheme but expect convergence)
+#   C5 (forced-honesty, M3): 7 targets × 50 prompts × 3 seeds = 1050
+#   C6, C7 (free-choice, M0 + M3): 6 fictional+real × 50 prompts × 5 seeds = 1500 / cell × 2 cells = 3000
+#   Total: ~12800 trials. Pre-rating is fast (~50ms); free-choice ~500ms. ~2 GPU-hr estimate.
+
+n_pre_rating_prompts: 50   # 50 prompts per target per cell (deterministic across seeds)
+n_free_choice_prompts: 50  # 50 prompts per target per (cell, seed)
+n_seeds: 5
+n_seeds_forced_honesty: 3  # C5 uses fewer seeds to save compute (forced-honesty is a diagnostic, not the main effect)
+
+# Model ModelScope paths
+models:
+  M0: "LLM-Research/Meta-Llama-3.1-8B"
+  M1: "allenai/Llama-3.1-Tulu-3-8B-SFT"
+  M2: "LLM-Research/Llama-3.1-Tulu-3-8B-DPO"
+  M3: "LLM-Research/Meta-Llama-3.1-8B-Instruct"
+
+# Output paths
+output_dir: "/root/autodl-tmp/free-choice-project/results/stage-base-vs-instruct-positivity-prior"

@@ -1,0 +1,22 @@
+# config/post-review-extensions — E4 (matched-format M0), E5 (2x2x2 factorial), E6 (expanded pseudowords)
+#
+# n_pre_rating_prompts: 5 (dedup-aware: one observation per (target, template) tuple;
+# the 10 deterministic reps per template in the original setup are not run here.)
+
+n_pre_rating_prompts: 5
+n_seeds: 1
+
+# Model ModelScope paths (already cached on the AutoDL remote in /root/autodl-tmp/)
+models:
+  M0: "LLM-Research/Meta-Llama-3.1-8B"
+  M1: "allenai/Llama-3.1-Tulu-3-8B-SFT"
+  M2: "LLM-Research/Llama-3.1-Tulu-3-8B-DPO"
+  M3: "LLM-Research/Meta-Llama-3.1-8B-Instruct"
+
+# Run plan (executed sequentially by run.sh):
+#   1. Load M0   → run E4_* cells (3 cells × 9 original targets = 27 (target,cell) pairs)
+#   2. Unload, load M3 → run E5_* cells (8 cells × 9 original targets = 72 pairs)
+#                       and E6_* cells (3 cells × 15 expanded pseudoword targets = 45 pairs)
+#
+# At n_prompts=5: 27 + 72 + 45 = 144 (target,cell) pairs × 5 = 720 total inference calls.
+# At ~50ms per call + model loads (M0 ~30s + M3 ~30s) → ~5-10 minutes wall clock.

@@ -1,0 +1,232 @@
+Loading model from /root/autodl-tmp/LLM-Research/Meta-Llama-3___1-8B-Instruct...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   1%|▏         | 4/291 [00:00<00:18, 15.18it/s]Loading weights:   2%|▏         | 6/291 [00:00<00:22, 12.88it/s]Loading weights:   6%|▌         | 18/291 [00:00<00:06, 42.50it/s]Loading weights:   9%|▊         | 25/291 [00:00<00:07, 37.44it/s]Loading weights:  11%|█         | 31/291 [00:00<00:07, 35.05it/s]Loading weights:  13%|█▎        | 38/291 [00:01<00:07, 35.97it/s]Loading weights:  15%|█▍        | 43/291 [00:01<00:07, 31.67it/s]Loading weights:  16%|█▌        | 47/291 [00:01<00:07, 33.24it/s]Loading weights:  18%|█▊        | 51/291 [00:01<00:08, 28.39it/s]Loading weights:  20%|█▉        | 58/291 [00:01<00:07, 30.66it/s]Loading weights:  23%|██▎       | 67/291 [00:02<00:07, 30.06it/s]Loading weights:  25%|██▌       | 73/291 [00:02<00:08, 27.04it/s]Loading weights:  28%|██▊       | 82/291 [00:02<00:06, 31.85it/s]Loading weights:  30%|██▉       | 86/291 [00:02<00:06, 32.74it/s]Loading weights:  32%|███▏      | 94/291 [00:03<00:06, 29.80it/s]Loading weights:  35%|███▌      | 103/291 [00:03<00:06, 30.06it/s]Loading weights:  38%|███▊      | 112/291 [00:03<00:05, 30.33it/s]Loading weights:  41%|████      | 119/291 [00:03<00:05, 31.67it/s]Loading weights:  44%|████▎     | 127/291 [00:03<00:04, 38.45it/s]Loading weights:  45%|████▌     | 132/291 [00:04<00:05, 29.84it/s]Loading weights:  48%|████▊     | 139/291 [00:04<00:05, 27.94it/s]Loading weights:  50%|████▉     | 145/291 [00:04<00:04, 32.15it/s]Loading weights:  51%|█████     | 149/291 [00:04<00:04, 33.15it/s]Loading weights:  53%|█████▎    | 153/291 [00:04<00:04, 29.64it/s]Loading weights:  54%|█████▍    | 157/291 [00:05<00:04, 31.13it/s]Loading weights:  57%|█████▋    | 166/291 [00:05<00:04, 26.87it/s]Loading weights:  59%|█████▉    | 173/291 [00:05<00:03, 33.60it/s]Loading weights:  61%|██████    | 178/291 [00:05<00:03, 30.68it/s]Loading weights:  63%|██████▎   | 182/291 [00:05<00:03, 27.75it/s]Loading weights:  64%|██████▍   | 186/291 [00:06<00:03, 29.44it/s]Loading weights:  66%|██████▋   | 193/291 [00:06<00:03, 26.89it/s]Loading weights:  69%|██████▉   | 202/291 [00:06<00:03, 28.16it/s]Loading weights:  73%|███████▎  | 211/291 [00:06<00:02, 32.87it/s]Loading weights:  75%|███████▍  | 217/291 [00:07<00:02, 32.18it/s]Loading weights:  77%|███████▋  | 223/291 [00:07<00:01, 36.79it/s]Loading weights:  78%|███████▊  | 228/291 [00:07<00:01, 39.28it/s]Loading weights:  80%|████████  | 233/291 [00:07<00:01, 34.18it/s]Loading weights:  81%|████████▏ | 237/291 [00:07<00:01, 35.31it/s]Loading weights:  83%|████████▎ | 241/291 [00:07<00:01, 29.50it/s]Loading weights:  84%|████████▍ | 245/291 [00:07<00:01, 31.63it/s]Loading weights:  86%|████████▌ | 249/291 [00:07<00:01, 32.79it/s]Loading weights:  88%|████████▊ | 255/291 [00:08<00:01, 32.10it/s]Loading weights:  89%|████████▉ | 259/291 [00:08<00:01, 28.27it/s]Loading weights:  90%|█████████ | 263/291 [00:08<00:00, 30.67it/s]Loading weights:  92%|█████████▏| 267/291 [00:08<00:00, 32.37it/s]Loading weights:  94%|█████████▍| 274/291 [00:08<00:00, 31.40it/s]Loading weights:  97%|█████████▋| 283/291 [00:09<00:00, 32.31it/s]Loading weights: 100%|██████████| 291/291 [00:09<00:00, 32.10it/s]
+  loaded. Model dtype=torch.float16, device=cuda.
+  GPU memory allocated: 14.96 GB
+
+=== Cell E5_000: {'model': 'M3', 'format': 'chat', 'task': 'pre-rating', 'system': 'factorial_000'} ===
+  [E5_000 / adirenia] wrote 5 trials → cell_E5_000_target_adirenia.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_000 / che_pact] wrote 5 trials → cell_E5_000_target_che_pact.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_000 / vellinkov] wrote 5 trials → cell_E5_000_target_vellinkov.json
+    digit_raw_mass: mean=0.996, #<0.50=0/5, #<0.30=0/5
+  [E5_000 / khantelan] wrote 5 trials → cell_E5_000_target_khantelan.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_000 / clean_drinking_water] wrote 5 trials → cell_E5_000_target_clean_drinking_water.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E5_000 / tooth_decay] wrote 5 trials → cell_E5_000_target_tooth_decay.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E5_000 / standard_brick] wrote 5 trials → cell_E5_000_target_standard_brick.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+
+=== Cell E5_001: {'model': 'M3', 'format': 'chat', 'task': 'pre-rating', 'system': 'factorial_001'} ===
+  [E5_001 / adirenia] wrote 5 trials → cell_E5_001_target_adirenia.json
+    digit_raw_mass: mean=0.998, #<0.50=0/5, #<0.30=0/5
+  [E5_001 / che_pact] wrote 5 trials → cell_E5_001_target_che_pact.json
+    digit_raw_mass: mean=0.998, #<0.50=0/5, #<0.30=0/5
+  [E5_001 / vellinkov] wrote 5 trials → cell_E5_001_target_vellinkov.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_001 / khantelan] wrote 5 trials → cell_E5_001_target_khantelan.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E5_001 / clean_drinking_water] wrote 5 trials → cell_E5_001_target_clean_drinking_water.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E5_001 / tooth_decay] wrote 5 trials → cell_E5_001_target_tooth_decay.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E5_001 / standard_brick] wrote 5 trials → cell_E5_001_target_standard_brick.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+
+=== Cell E5_010: {'model': 'M3', 'format': 'chat', 'task': 'pre-rating', 'system': 'factorial_010'} ===
+  [E5_010 / adirenia] wrote 5 trials → cell_E5_010_target_adirenia.json
+    digit_raw_mass: mean=0.998, #<0.50=0/5, #<0.30=0/5
+  [E5_010 / che_pact] wrote 5 trials → cell_E5_010_target_che_pact.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_010 / vellinkov] wrote 5 trials → cell_E5_010_target_vellinkov.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_010 / khantelan] wrote 5 trials → cell_E5_010_target_khantelan.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_010 / clean_drinking_water] wrote 5 trials → cell_E5_010_target_clean_drinking_water.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E5_010 / tooth_decay] wrote 5 trials → cell_E5_010_target_tooth_decay.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_010 / standard_brick] wrote 5 trials → cell_E5_010_target_standard_brick.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+
+=== Cell E5_011: {'model': 'M3', 'format': 'chat', 'task': 'pre-rating', 'system': 'factorial_011'} ===
+  [E5_011 / adirenia] wrote 5 trials → cell_E5_011_target_adirenia.json
+    digit_raw_mass: mean=0.998, #<0.50=0/5, #<0.30=0/5
+  [E5_011 / che_pact] wrote 5 trials → cell_E5_011_target_che_pact.json
+    digit_raw_mass: mean=0.998, #<0.50=0/5, #<0.30=0/5
+  [E5_011 / vellinkov] wrote 5 trials → cell_E5_011_target_vellinkov.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_011 / khantelan] wrote 5 trials → cell_E5_011_target_khantelan.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_011 / clean_drinking_water] wrote 5 trials → cell_E5_011_target_clean_drinking_water.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_011 / tooth_decay] wrote 5 trials → cell_E5_011_target_tooth_decay.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E5_011 / standard_brick] wrote 5 trials → cell_E5_011_target_standard_brick.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+
+=== Cell E5_100: {'model': 'M3', 'format': 'chat', 'task': 'pre-rating', 'system': 'factorial_100'} ===
+  [E5_100 / adirenia] wrote 5 trials → cell_E5_100_target_adirenia.json
+    digit_raw_mass: mean=0.996, #<0.50=0/5, #<0.30=0/5
+  [E5_100 / che_pact] wrote 5 trials → cell_E5_100_target_che_pact.json
+    digit_raw_mass: mean=0.997, #<0.50=0/5, #<0.30=0/5
+  [E5_100 / vellinkov] wrote 5 trials → cell_E5_100_target_vellinkov.json
+    digit_raw_mass: mean=0.994, #<0.50=0/5, #<0.30=0/5
+  [E5_100 / khantelan] wrote 5 trials → cell_E5_100_target_khantelan.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_100 / clean_drinking_water] wrote 5 trials → cell_E5_100_target_clean_drinking_water.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E5_100 / tooth_decay] wrote 5 trials → cell_E5_100_target_tooth_decay.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_100 / standard_brick] wrote 5 trials → cell_E5_100_target_standard_brick.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+
+=== Cell E5_101: {'model': 'M3', 'format': 'chat', 'task': 'pre-rating', 'system': 'factorial_101'} ===
+  [E5_101 / adirenia] wrote 5 trials → cell_E5_101_target_adirenia.json
+    digit_raw_mass: mean=0.995, #<0.50=0/5, #<0.30=0/5
+  [E5_101 / che_pact] wrote 5 trials → cell_E5_101_target_che_pact.json
+    digit_raw_mass: mean=0.996, #<0.50=0/5, #<0.30=0/5
+  [E5_101 / vellinkov] wrote 5 trials → cell_E5_101_target_vellinkov.json
+    digit_raw_mass: mean=0.992, #<0.50=0/5, #<0.30=0/5
+  [E5_101 / khantelan] wrote 5 trials → cell_E5_101_target_khantelan.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_101 / clean_drinking_water] wrote 5 trials → cell_E5_101_target_clean_drinking_water.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E5_101 / tooth_decay] wrote 5 trials → cell_E5_101_target_tooth_decay.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E5_101 / standard_brick] wrote 5 trials → cell_E5_101_target_standard_brick.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+
+=== Cell E5_110: {'model': 'M3', 'format': 'chat', 'task': 'pre-rating', 'system': 'factorial_110'} ===
+  [E5_110 / adirenia] wrote 5 trials → cell_E5_110_target_adirenia.json
+    digit_raw_mass: mean=0.994, #<0.50=0/5, #<0.30=0/5
+  [E5_110 / che_pact] wrote 5 trials → cell_E5_110_target_che_pact.json
+    digit_raw_mass: mean=0.995, #<0.50=0/5, #<0.30=0/5
+  [E5_110 / vellinkov] wrote 5 trials → cell_E5_110_target_vellinkov.json
+    digit_raw_mass: mean=0.994, #<0.50=0/5, #<0.30=0/5
+  [E5_110 / khantelan] wrote 5 trials → cell_E5_110_target_khantelan.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_110 / clean_drinking_water] wrote 5 trials → cell_E5_110_target_clean_drinking_water.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E5_110 / tooth_decay] wrote 5 trials → cell_E5_110_target_tooth_decay.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_110 / standard_brick] wrote 5 trials → cell_E5_110_target_standard_brick.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+
+=== Cell E5_111: {'model': 'M3', 'format': 'chat', 'task': 'pre-rating', 'system': 'factorial_111'} ===
+  [E5_111 / adirenia] wrote 5 trials → cell_E5_111_target_adirenia.json
+    digit_raw_mass: mean=0.993, #<0.50=0/5, #<0.30=0/5
+  [E5_111 / che_pact] wrote 5 trials → cell_E5_111_target_che_pact.json
+    digit_raw_mass: mean=0.995, #<0.50=0/5, #<0.30=0/5
+  [E5_111 / vellinkov] wrote 5 trials → cell_E5_111_target_vellinkov.json
+    digit_raw_mass: mean=0.991, #<0.50=0/5, #<0.30=0/5
+  [E5_111 / khantelan] wrote 5 trials → cell_E5_111_target_khantelan.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_111 / clean_drinking_water] wrote 5 trials → cell_E5_111_target_clean_drinking_water.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E5_111 / tooth_decay] wrote 5 trials → cell_E5_111_target_tooth_decay.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E5_111 / standard_brick] wrote 5 trials → cell_E5_111_target_standard_brick.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+
+=== Cell E6_default: {'model': 'M3', 'format': 'chat', 'task': 'pre-rating', 'system': 'default'} ===
+  [E6_default / nellatron] wrote 5 trials → cell_E6_default_target_nellatron.json
+    digit_raw_mass: mean=0.998, #<0.50=0/5, #<0.30=0/5
+  [E6_default / qatresca] wrote 5 trials → cell_E6_default_target_qatresca.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E6_default / vespalin] wrote 5 trials → cell_E6_default_target_vespalin.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E6_default / tarnobel] wrote 5 trials → cell_E6_default_target_tarnobel.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E6_default / domorath] wrote 5 trials → cell_E6_default_target_domorath.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E6_default / shafrith] wrote 5 trials → cell_E6_default_target_shafrith.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E6_default / brindeck] wrote 5 trials → cell_E6_default_target_brindeck.json
+    digit_raw_mass: mean=0.997, #<0.50=0/5, #<0.30=0/5
+  [E6_default / menavral] wrote 5 trials → cell_E6_default_target_menavral.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E6_default / plaivin] wrote 5 trials → cell_E6_default_target_plaivin.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E6_default / drispalva] wrote 5 trials → cell_E6_default_target_drispalva.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E6_default / orenthik] wrote 5 trials → cell_E6_default_target_orenthik.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E6_default / raviska] wrote 5 trials → cell_E6_default_target_raviska.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E6_default / ulvanteth] wrote 5 trials → cell_E6_default_target_ulvanteth.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E6_default / mendarov] wrote 5 trials → cell_E6_default_target_mendarov.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E6_default / brisanthi] wrote 5 trials → cell_E6_default_target_brisanthi.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+
+=== Cell E6_forced: {'model': 'M3', 'format': 'chat', 'task': 'pre-rating', 'system': 'forced-honesty'} ===
+  [E6_forced / nellatron] wrote 5 trials → cell_E6_forced_target_nellatron.json
+    digit_raw_mass: mean=0.993, #<0.50=0/5, #<0.30=0/5
+  [E6_forced / qatresca] wrote 5 trials → cell_E6_forced_target_qatresca.json
+    digit_raw_mass: mean=0.995, #<0.50=0/5, #<0.30=0/5
+  [E6_forced / vespalin] wrote 5 trials → cell_E6_forced_target_vespalin.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E6_forced / tarnobel] wrote 5 trials → cell_E6_forced_target_tarnobel.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E6_forced / domorath] wrote 5 trials → cell_E6_forced_target_domorath.json
+    digit_raw_mass: mean=0.998, #<0.50=0/5, #<0.30=0/5
+  [E6_forced / shafrith] wrote 5 trials → cell_E6_forced_target_shafrith.json
+    digit_raw_mass: mean=0.992, #<0.50=0/5, #<0.30=0/5
+  [E6_forced / brindeck] wrote 5 trials → cell_E6_forced_target_brindeck.json
+    digit_raw_mass: mean=0.990, #<0.50=0/5, #<0.30=0/5
+  [E6_forced / menavral] wrote 5 trials → cell_E6_forced_target_menavral.json
+    digit_raw_mass: mean=0.993, #<0.50=0/5, #<0.30=0/5
+  [E6_forced / plaivin] wrote 5 trials → cell_E6_forced_target_plaivin.json
+    digit_raw_mass: mean=0.995, #<0.50=0/5, #<0.30=0/5
+  [E6_forced / drispalva] wrote 5 trials → cell_E6_forced_target_drispalva.json
+    digit_raw_mass: mean=0.994, #<0.50=0/5, #<0.30=0/5
+  [E6_forced / orenthik] wrote 5 trials → cell_E6_forced_target_orenthik.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E6_forced / raviska] wrote 5 trials → cell_E6_forced_target_raviska.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E6_forced / ulvanteth] wrote 5 trials → cell_E6_forced_target_ulvanteth.json
+    digit_raw_mass: mean=0.998, #<0.50=0/5, #<0.30=0/5
+  [E6_forced / mendarov] wrote 5 trials → cell_E6_forced_target_mendarov.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E6_forced / brisanthi] wrote 5 trials → cell_E6_forced_target_brisanthi.json
+    digit_raw_mass: mean=0.998, #<0.50=0/5, #<0.30=0/5
+
+=== Cell E6_control: {'model': 'M3', 'format': 'chat', 'task': 'pre-rating', 'system': 'control-honesty'} ===
+  [E6_control / nellatron] wrote 5 trials → cell_E6_control_target_nellatron.json
+    digit_raw_mass: mean=0.988, #<0.50=0/5, #<0.30=0/5
+  [E6_control / qatresca] wrote 5 trials → cell_E6_control_target_qatresca.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E6_control / vespalin] wrote 5 trials → cell_E6_control_target_vespalin.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E6_control / tarnobel] wrote 5 trials → cell_E6_control_target_tarnobel.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E6_control / domorath] wrote 5 trials → cell_E6_control_target_domorath.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E6_control / shafrith] wrote 5 trials → cell_E6_control_target_shafrith.json
+    digit_raw_mass: mean=0.998, #<0.50=0/5, #<0.30=0/5
+  [E6_control / brindeck] wrote 5 trials → cell_E6_control_target_brindeck.json
+    digit_raw_mass: mean=0.995, #<0.50=0/5, #<0.30=0/5
+  [E6_control / menavral] wrote 5 trials → cell_E6_control_target_menavral.json
+    digit_raw_mass: mean=0.995, #<0.50=0/5, #<0.30=0/5
+  [E6_control / plaivin] wrote 5 trials → cell_E6_control_target_plaivin.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E6_control / drispalva] wrote 5 trials → cell_E6_control_target_drispalva.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+  [E6_control / orenthik] wrote 5 trials → cell_E6_control_target_orenthik.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E6_control / raviska] wrote 5 trials → cell_E6_control_target_raviska.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E6_control / ulvanteth] wrote 5 trials → cell_E6_control_target_ulvanteth.json
+    digit_raw_mass: mean=1.000, #<0.50=0/5, #<0.30=0/5
+  [E6_control / mendarov] wrote 5 trials → cell_E6_control_target_mendarov.json
+    digit_raw_mass: mean=0.996, #<0.50=0/5, #<0.30=0/5
+  [E6_control / brisanthi] wrote 5 trials → cell_E6_control_target_brisanthi.json
+    digit_raw_mass: mean=0.999, #<0.50=0/5, #<0.30=0/5
+
+Done. Total elapsed: 23.7s
+E5+E6 DONE: Fri May 22 02:05:09 CST 2026

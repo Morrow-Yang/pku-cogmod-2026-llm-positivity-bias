@@ -1,0 +1,13 @@
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Python (just in case any local runs happen here)
+__pycache__/
+*.py[cod]
+.venv/
+
+# Local environments
+.env

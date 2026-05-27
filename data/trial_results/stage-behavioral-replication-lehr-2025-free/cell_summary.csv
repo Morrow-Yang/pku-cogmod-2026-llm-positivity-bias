@@ -1,0 +1,14 @@
+target_id,target_role,framing,observed_valence,mean_shift,sd_shift,n
+adirenia,primary,commanded,negative,-5.437,0.143,250
+adirenia,primary,commanded,positive,0.35,0.013,250
+adirenia,primary,free,positive,0.331,0.019,500
+che_pact,primary,commanded,negative,-4.374,0.193,250
+che_pact,primary,commanded,positive,1.384,0.005,250
+che_pact,primary,free,positive,1.37,0.009,500
+putin,secondary,commanded,negative,-2.759,0.258,250
+putin,secondary,commanded,positive,2.729,0.829,250
+putin,secondary,free,negative,-2.783,0.014,48
+putin,secondary,free,positive,2.97,0.159,452
+vellinkov,primary,commanded,negative,-3.889,0.224,250
+vellinkov,primary,commanded,positive,1.859,0.007,250
+vellinkov,primary,free,positive,1.856,0.006,500

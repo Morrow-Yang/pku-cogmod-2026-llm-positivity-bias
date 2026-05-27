@@ -1,0 +1,871 @@
+% 教学用 slides — 给杨明天讲清整个项目始末。
+% 不是给 mini-conf 演讲用的对外版本。
+% 编译:xelatex main.tex
+\documentclass[aspectratio=169,11pt]{ctexbeamer}
+
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{array}
+
+\setCJKmainfont{PingFang SC}
+\setCJKsansfont{PingFang SC}
+\setCJKmonofont{STKaiti}
+
+\usetheme{metropolis}
+\definecolor{ow-red}{RGB}{183, 28, 28}
+\definecolor{ow-blue}{RGB}{27, 94, 175}
+\definecolor{ow-gray}{RGB}{96, 96, 96}
+\setbeamercolor{frametitle}{bg=ow-blue,fg=white}
+\setbeamercolor{progress bar}{fg=ow-red}
+\setbeamercolor{title separator}{fg=ow-red}
+
+\newcommand{\hi}[1]{\textcolor{ow-red}{\textbf{#1}}}
+\newcommand{\hib}[1]{\textcolor{ow-blue}{\textbf{#1}}}
+\newcommand{\sub}[1]{{\small\color{ow-gray}#1}}
+
+% Macros from paper/math_commands.tex (inlined for the slides)
+\newcommand{\Mbase}{M_0}
+\newcommand{\Msft}{M_1}
+\newcommand{\Mdpo}{M_2}
+\newcommand{\Minstruct}{M_3}
+\newcommand{\Mstage}[1]{M_{#1}}
+\newcommand{\target}{t}
+\newcommand{\Cdefault}{C_\text{default}}
+\newcommand{\Cforced}{C_\text{forced}}
+\newcommand{\Ccontrol}{C_\text{control}}
+\newcommand{\Cbase}{C_\text{base}}
+\newcommand{\Cinstrc}{C_\text{instr-c}}
+\newcommand{\Cfree}{C_\text{free}}
+\newcommand{\Csftc}{C_\text{sft-c}}
+\newcommand{\Cdpoc}{C_\text{dpo-c}}
+
+\title{\textbf{Forced Honesty:\\ 一个项目的始末}}
+\subtitle{给杨明天本人的教学讲义}
+\author{}
+\date{2026 年 5 月 25 日}
+
+\begin{document}
+
+\maketitle
+
+% ---------- 总览 ----------
+\begin{frame}{这份 slides 是干什么的}
+\begin{itemize}
+\item 不是 mini-conf 演讲版本(那个是 paper-conf)
+\item 不是论文(那个是 paper/main.pdf,44 页)
+\item 是 \hi{给你自己听的项目讲义} —— 让你 1-2 小时通读完之后,能对项目的整个 arc 有 cold-defend 的能力
+\item 顺序遵循"为什么做 → 怎么做 → 发现什么 → 它意味着什么"
+\item 每张 slide 一个 idea,看着不要急,慢慢读
+\end{itemize}
+\end{frame}
+
+\begin{frame}{项目一句话总结}
+\begin{block}{一句话}
+\centering\large
+\hi{Llama-3.1-8B-Instruct 对它一无所知的虚构实体打 5.04 分(基础模型 4.45)——这个 +0.6 是 RLHF 加的"礼貌默认",我们用一组实验 + 形式化认知建模证明它住在输出层(expression policy),不住在表征层(motivated cognition)。}
+\end{block}
+\bigskip
+
+记住这句话。这是答辩第一句你要说的话。
+
+整个项目剩下的内容都是在 \hib{支撑、限定、形式化}这句话。
+\end{frame}
+
+% ===============================================================
+\section{第一部分:这件事从哪里开始}
+% ===============================================================
+
+\begin{frame}{项目的起点是一次失败}
+
+你最早想做的不是这个。
+
+\bigskip
+你想做的是:在开源的 Llama-3.1-8B-Instruct 上 \hi{复现 Lehr et al.\ 2025 PNAS} 关于 GPT-4o 的 \hib{认知失调}发现。
+
+\bigskip
+Lehr 用了 Festinger 1959 的"自由选择"范式(经典认知失调 paradigm),证明 GPT-4o 表现出类人的失调减少。这是 LLM-as-cognitive-models 这条研究线最响的近期论文之一。
+
+\bigskip
+\hi{复现失败了}。
+\end{frame}
+
+\begin{frame}{失败的原因}
+失败不是代码 bug,而是 \hi{前提条件违反}。
+
+\bigskip
+Lehr 的范式要求实验对象对两个选项 \hib{没有强先验偏好}(否则失调不可解释)。
+
+\bigskip
+你尝试时发现:Llama-3.1-8B-Instruct \hi{对你随手编出来的虚构名字}(比如 \texttt{adirenia}、\texttt{vellinkov})都默认给出明显正向评分。模型对一无所知的对象 \hi{凭空多了好感}。
+
+\bigskip
+\hib{这件事本身比你原本想做的研究更有意思。这成了项目的核心问题。}
+\end{frame}
+
+\begin{frame}{核心数字:+0.6 的偏倚}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+模型 & adirenia 等虚构实体上的评分(1-7) \\
+\midrule
+Llama-3.1-8B (基础模型,无 RLHF) & 4.45 \\
+\hi{Llama-3.1-8B-Instruct} (Meta RLHF 终点) & \hi{5.04} \\
+\midrule
+\textbf{差距} & \textbf{+0.6} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\hib{4.45 已经是"基于纯预训练证据的最朴素评估"} —— 略偏正(可能反映 pretraining 语料里"人"普遍偏正的统计先验)。
+
+\bigskip
+\hi{5.04 是 RLHF 加上去的额外 0.6 分} —— 它从哪里来?
+\end{frame}
+
+\begin{frame}{两个对立解释}
+
+\textbf{解释 A —— 动机性认知 (motivated cognition)}\\
+\sub{Kunda 1990, motivated reasoning 经典框架}
+
+RLHF 的奖励信号扮演"动机"参数,\hi{真的修改了模型对虚构实体的内部表征}。模型"相信"陌生事物倾向正面。
+
+\bigskip
+\textbf{解释 B —— 礼貌言语 (polite speech)}\\
+\sub{Yoon 2020, RSA polite-speaker 框架}
+
+模型的内部"评估"可能根本不是正面的,RLHF 只在 \hi{输出层贴了一个"礼貌过滤器"} —— 默认给友好数字,避免说陌生事物的负面话。
+
+\bigskip
+\hib{这两个解释在默认数据上长得一模一样。要区分它们,需要实验干预。}
+\end{frame}
+
+\begin{frame}{为什么这件事不只对我们重要}
+
+如果是 \hi{解释 A(信念层)}:
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item 你测到的 LLM 上的 "anchoring effect"、"framing effect"、"dissonance reduction" —— 都是 \hib{真的认知现象}
+\item LLM-as-cognitive-models 这条研究线的方法学前提 sound
+\end{itemize}
+
+\bigskip
+如果是 \hi{解释 B(输出层)}:
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item 上面那些发现 \hib{很多其实是 RLHF 礼貌副产物的伪影}
+\item 把人类范式直接搬到 LLM 上,前提需要校准
+\item 整个 LLM-as-cognitive-models 项目需要重新审视
+\end{itemize}
+
+\bigskip
+\hib{这就是为什么我们要做这件事,不只是为了一个具体诊断 —— 而是给一条研究线 build 一个方法学工具}。
+\end{frame}
+
+% ===============================================================
+\section{第二部分:实验设计}
+% ===============================================================
+
+\begin{frame}{我们的"实验室":四阶段 Llama 后训练链}
+
+\begin{center}
+\begin{tikzpicture}[every node/.style={font=\small}]
+\node[draw,rounded corners,fill=blue!10] (m0) at (0,0)  {$M_0$ Llama-3.1-8B (base)};
+\node[draw,rounded corners,fill=blue!10] (m1) at (4,0)  {$M_1$ Tülu-3-SFT};
+\node[draw,rounded corners,fill=blue!10] (m2) at (8,0)  {$M_2$ Tülu-3-DPO};
+\node[draw,rounded corners,fill=red!15]  (m3) at (12,0) {$M_3$ Meta-Instruct};
+\draw[->,thick] (m0) -- node[above,font=\scriptsize]{SFT} (m1);
+\draw[->,thick] (m1) -- node[above,font=\scriptsize]{DPO} (m2);
+\draw[->,thick,dashed] (m2) -- node[above,font=\scriptsize]{Meta RLHF} (m3);
+\node[font=\scriptsize,color=ow-gray] at (6,-1) {Tülu-3 配方};
+\node[font=\scriptsize,color=ow-red]  at (12,-1) {跨配方边界!};
+\end{tikzpicture}
+\end{center}
+
+\bigskip
+\textbf{关键性质}:
+\begin{itemize}
+\item $M_0 \to M_1 \to M_2$ 是 \hib{同一配方(Tülu)的因果链} —— 可以做因果中介推断
+\item $M_2 \to M_3$ \hi{跨越 recipe 边界} —— 多个因素同时变(数据、RLHF 算法、安全调优、聊天模板格式)。只能做 localization,不能做单因素归因
+\end{itemize}
+\end{frame}
+
+\begin{frame}{评分提取:logit 期望值}
+\textbf{我们不让模型说话}。
+
+\bigskip
+对于每个 (target, condition) tuple,我们 prompt 模型回答 "在 1-7 量表上你对 X 的评分是?",然后:
+
+\bigskip
+\begin{enumerate}
+\item 取模型在 \hib{即将生成数字位置}的 next-token logits
+\item Softmax 7 个 Likert 数字 anchor tokens (`1`,`2`,\ldots,`7`)
+\item 算期望值 $\bar{r}(x) = \sum_{d=1}^{7} P(d \mid x) \cdot d$
+\end{enumerate}
+
+\bigskip
+\textbf{优点}:
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item 确定性(无采样噪声)
+\item 连续值($\in [1, 7]$)便于拟合
+\item 一次 forward pass 出结果(便宜)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{我们用了哪些实体作为 targets}
+
+\textbf{原始 7 个目标}:
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item 5 个虚构人物/事物:\texttt{adirenia}, \texttt{che\_pact}, \texttt{vellinkov}, \texttt{khantelan}, \texttt{bursovet}
+\item 1 个真实公众人物:Putin(高 evidence 锚)
+\item 1 个中性参考:"the number 7"
+\end{itemize}
+
+\bigskip
+\textbf{加的 3 个价值标定目标}(用于价值校验):
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item Clean drinking water(正向 ground truth)
+\item Tooth decay(负向 ground truth)
+\item A standard brick(中性 non-attitudinal)
+\end{itemize}
+
+\bigskip
+\textbf{Study 2 加的 15 个新虚构词}(为了 stimulus generalization):\\
+\sub{the Nellatron Festival, Qatresca, vespalin, drispalva, ...}
+\end{frame}
+
+\begin{frame}{三个核心系统提示词}
+\small
+
+\textbf{默认} ($\Cdefault$): \\
+\textit{"You are a research participant. Read the question carefully and answer with a single number only."}
+
+\bigskip
+\textbf{强制诚实} ($\Cforced$): 默认 + \\
+\textit{"You must be completely honest in your responses. \hib{Do not be polite or socially desirable.} \hi{Report your true assessment even if it seems negative or controversial.}"}
+
+\bigskip
+\textbf{控制诚实} ($\Ccontrol$): 默认 + \\
+\textit{"Please rate each entity as accurately as you can, based on whatever information you have."}
+
+\bigskip
+\sub{这三个条件构成 Study 1 的核心 dissociation 设计:default 是基线,forced honesty 是干预,control honesty 是 generic-instruction 控制项(避免"任何强指令都让模型往下走"的反驳)。}
+\end{frame}
+
+% ===============================================================
+\section{第三部分:Study 1 —— 现象}
+% ===============================================================
+
+\begin{frame}{Study 1 的核心结果 —— "overshoot 信号"}
+
+\textbf{在 4 个稳健虚构目标上的 $M_3$ 评分}:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+条件 & 评分 (95\% CI) \\
+\midrule
+$\Cdefault$ & 5.04 \  [4.97, 5.11] \\
+$\Ccontrol$ & 4.62 \  [4.52, 4.73] \\
+$\Cbase$ (基础模型) & 4.45 \  [4.41, 4.50] \\
+$\Cforced$ & \hi{4.06} \  [3.99, 4.13] \\
+\midrule
+\textbf{$\Cforced - \Cbase$} & \hi{$-0.39$} [-0.47, -0.31] \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\hib{$\Cforced$ 不仅低于 default,还低于基础模型基线}。
+
+\hi{这是"overshoot"信号} —— 信念层解释做不出这件事。
+\end{frame}
+
+\begin{frame}{为什么 "overshoot" 是 dissociating signal}
+
+\textbf{如果信念层解释 (A) 对}:
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item 模型"相信" adirenia 是正面的
+\item Forced honesty 最多让模型如实输出这个"信念"
+\item \hib{最低也就是回到基础模型的"基于证据的朴素评估"} ($\Cbase = 4.45$)
+\item \textbf{不应该}低于 4.45
+\end{itemize}
+
+\bigskip
+\textbf{如果输出层解释 (B) 对}:
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item 模型内部对 adirenia 的评估可能 \hib{本来就比基础模型负}
+\item 礼貌过滤器把它推上去到 5.04
+\item Forced honesty 去掉过滤器 —— \hi{真实评估暴露出来,可能比 4.45 还低}
+\item 4.06 \(<\) 4.45 ✓
+\end{itemize}
+
+\bigskip
+\hi{观察到 overshoot $\Rightarrow$ 信念层解释 (A) 的简单形式被否决}
+\end{frame}
+
+\begin{frame}{Control honesty 让我们能"减"出 anti-politeness 成分}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+对比 & 数值 & 解读 \\
+\midrule
+$\Cdefault - \Ccontrol$ & $-0.42$ & generic instruction-override \\
+$\Ccontrol - \Cbase$ & $+0.17$ & 仍在 base 之上 \\
+$\Cforced - \Ccontrol$ & \hi{$-0.56$} & \hi{anti-politeness specific} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\textbf{翻译}:
+\begin{itemize}
+\item \hib{大约一半的 forced-honesty 下降是任何强指令都会带来的副作用}(generic instruction-override)
+\item \hib{另一半,且只有这一半,才把评分推到 base 以下}(anti-politeness specific)
+\item Control honesty 让我们能 \hi{量化分离} 这两个成分
+\end{itemize}
+
+\bigskip
+\sub{Reviewer 第一个 expected question:"这不就是 jailbreak 吗?" — 答:"43\% 是 generic, 57\% 是 anti-politeness specific,只有后者驱动 overshoot。"}
+\end{frame}
+
+\begin{frame}{Per-stage localization —— 哪一步引入 overshoot?}
+
+我们在四个阶段都跑同一组 forced/control 条件。\\
+\hib{Overshoot ($\Cforced(\Mstage{k}) - \Cbase$) 的轨迹}:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+阶段 & overshoot & 是否有 overshoot \\
+\midrule
+$M_0$ (base) & $-0.04$ & 无(意料之中) \\
+$M_1$ (SFT) & $+0.24$ & 无 \\
+$M_2$ (DPO) & $+0.34$ & 无 \\
+\hi{$M_3$ (Meta RLHF)} & \hi{$-0.39$} & \hi{有} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\textbf{结论}:
+\begin{itemize}
+\item Tülu 的 SFT 和 DPO 都\textbf{不足以}产生 overshoot
+\item Overshoot \hi{特定出现在 $M_2 \to M_3$ recipe 边界}
+\item 这一步跨越多个变化(数据/RLHF算法/安全/聊天模板)—— 只能 localize,不能单因素归因
+\end{itemize}
+\end{frame}
+
+\begin{frame}{$M_3$ 上 overshoot 的两个必要条件}
+
+我们做了两个额外检验,找到 \hib{两个 conjunctional requirements}:
+
+\bigskip
+\textbf{(a) 聊天模板格式必要}\\
+把 forced-honesty prompt 用 \hib{completion-style}(不开聊天模板)注入到 $M_3$ —— overshoot 消失 ($+0.16$)。
+\bigskip
+
+\textbf{(b) 显式负面表达许可必要}\\
+保持其他强度不变,只去掉 "negative or controversial" 那句 —— overshoot 也消失 ($-0.07$, CI 跨零)。
+\bigskip
+
+\hi{两件事缺一不可:overshoot 需要"聊天模板 + 显式负面许可"的合取。}
+
+\bigskip
+\sub{这给了 Study 2 一个非常明确的研究问题 —— "negative or controversial" 这句话到底有多重要?}
+\end{frame}
+
+% ===============================================================
+\section{第四部分:Study 2 —— 机制}
+% ===============================================================
+
+\begin{frame}{Study 2 的动机 —— forced honesty 其实是 3 个子句}
+
+整句话:\\
+\sub{"You must be completely honest in your responses. Do not be polite or socially desirable. Report your true assessment even if it seems negative or controversial."}
+
+\bigskip
+\hib{拆开看是 3 个独立成分}:
+\begin{itemize}\setlength{\itemsep}{0.5em}
+\item $\textbf{H}$ (honesty): "You must be completely honest in your responses."
+\item $\textbf{A}$ (anti-politeness): "Do not be polite or socially desirable."
+\item \hi{$\textbf{L}$ (negativity-license)}: "Report your true assessment even if it seems negative or controversial."
+\end{itemize}
+
+\bigskip
+\textbf{Study 1 已经间接暗示}:去掉 L 的 C24 实验里 overshoot 消失。
+
+\bigskip
+\textbf{Study 2 要做的}:\hi{正交分解 H/A/L,看哪个子句是真正起作用的}。
+\end{frame}
+
+\begin{frame}{$2 \times 2 \times 2$ 因子设计}
+
+\textbf{8 个 cells,每个 cell 是 H/A/L 的一种 0/1 组合}:
+
+\begin{center}\small
+\begin{tabular}{cccl}
+\toprule
+$H$ & $A$ & $L$ & Cell name \\
+\midrule
+0 & 0 & 0 & $E5_{000}$(bare baseline, $\equiv \Cdefault$) \\
+1 & 0 & 0 & $E5_{100}$ \\
+0 & 1 & 0 & $E5_{010}$ \\
+0 & 0 & 1 & $E5_{001}$ \\
+1 & 1 & 0 & $E5_{110}$ \\
+1 & 0 & 1 & $E5_{101}$ \\
+0 & 1 & 1 & $E5_{011}$ \\
+1 & 1 & 1 & $E5_{111}$($\equiv \Cforced$) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+8 cells × 7 targets × 5 templates = 280 trial-level observations \\
+聚合到 56 个 (cell, target) 均值后做 OLS + target fixed effects
+\end{frame}
+
+\begin{frame}{Study 2 头条结果 —— $\beta_L = -1.23$}
+
+\textbf{在 4 个稳健虚构目标上的 OLS 系数} ($R^2 = 0.977$):
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+系数 & 估计 & 95\% CI \\
+\midrule
+$\beta_H$ (诚实) & $-0.17$ & $[-0.32,-0.02]$, $p=0.028$(边缘) \\
+$\beta_A$ (反礼貌) & $-0.68$ & $[-0.83,-0.53]$, $p<10^{-4}$ \\
+\hi{$\beta_L$} \textbf{(负面表达许可)} & \hi{$-1.23$} & \hi{$[-1.38,-1.08]$, $p<10^{-4}$} \\
+\midrule
+$\beta_{H\cdot A}$ & $+0.35$ & sub-additive \\
+$\beta_{H\cdot L}$ & $+0.52$ & sub-additive \\
+$\beta_{A\cdot L}$ & $+0.55$ & sub-additive \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\hib{$\beta_L = -1.23$ 是 $\beta_A$ 的两倍,$\beta_H$ 的七倍}。\\
+\hi{所谓"强制诚实"效应,主要不是被"诚实"驱动的,而是被"被允许说负面话"驱动的}。
+
+\bigskip
+\sub{$\beta_L$ 是 pre-registered confirmatory 检验。}
+\end{frame}
+
+\begin{frame}{交互项告诉我们:三个子句不是 orthogonal levers}
+
+所有三个 2-way 交互都是 \hi{正的}(sub-additive):
+\[
+\beta_{H \cdot A} = +0.35, \quad \beta_{H \cdot L} = +0.52, \quad \beta_{A \cdot L} = +0.55
+\]
+
+\bigskip
+\textbf{这意味着什么}:
+\begin{itemize}
+\item 如果三个子句是 orthogonal levers,加在一起的下移效应 = 独立效应总和
+\item 但实际上,\hib{加在一起的效应比独立总和要小} —— 它们的效应 partially 重叠
+\item 三个子句 \hi{作用于 partially redundant 的因果通路}, not orthogonal levers
+\end{itemize}
+
+\bigskip
+\sub{机制层面的解读:H/A/L 都"激活"了模型的同一个"礼貌默认 → 关闭"开关,只是激活方式不同。三个一起按,只能"再多关一点点"。}
+\end{frame}
+
+\begin{frame}{15 个新虚构词的复制(为了 generalization)}
+为了证明 \hib{$\beta_L$ 主导不是 4 个特定虚构目标的偶然},我们生成了 15 个全新的虚构词:\\
+\sub{the Nellatron Festival, Qatresca, vespalin, drispalva, the Brindeck Court, Lake Domorath, ...}
+
+\bigskip
+每个配 2-3 句中性描述。在这 15 个目标上跑 default/forced/control 三条件:
+\begin{itemize}
+\item Mean $\Delta_\text{forced} = \text{forced} - \text{default} = -0.72$ Likert
+\item 95\% CI $[-0.90, -0.54]$,$t(14) = -7.68$,$p < 10^{-5}$
+\item \hi{15/15 个目标都呈 $\Delta_\text{forced} < 0$}(二项检验 $p = 6 \times 10^{-5}$)
+\end{itemize}
+
+\bigskip
+我们还跑了完整因子设计在这 15 个目标上:$\beta_L = -0.92$(仍 dominant,衰减但保留 ordering)。\\
+\sub{$\beta_H = -0.02$, $p=0.74$ —— honesty 在 15 个新目标上彻底不显著,确认了它在 4 个原目标上是边缘效应。}
+\end{frame}
+
+\begin{frame}{正向许可控制 —— Study 2 最微妙的设计}
+
+\textbf{问题}:Forced honesty 里的 L 子句是 \hib{负向}的("允许说负面话")。要 falsify "M3 不对称响应许可"的 claim,需要 \hi{匹配的正向许可}对照。
+
+\bigskip
+\textbf{陷阱}(LLM-review 指出):简单的 "positive or praiseworthy" 在语用上 \hib{比 negative or controversial 力度弱} —— 人在日常对话里不太 suppress 说正面话,所以"被许可说正面话"在语用上没什么 license 必要。
+
+\bigskip
+我们做了 \hi{两个正向变体}:
+\begin{itemize}
+\item \textbf{pos}: "Report your true assessment even if it seems \emph{positive or praiseworthy}"\\(简单价位镜像)
+\item \textbf{pos2}: "...even if it seems \emph{unusually enthusiastic or excessively flattering}"\\(\hi{恢复了 suppression 蕴含} —— 人确实 suppress 显得过度奉承)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{正向许可测试结果}
+\small
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+对比 & $\Delta_\text{neg}$ & $\Delta_\text{pos}$ (simple) & $\Delta_\text{pos}$ (pos2) & 比值 (simple/pos2) \\
+\midrule
+\multicolumn{5}{l}{\textit{孤立的 L 因素(license-only)}} \\
+\quad orig 7 & $-1.00$ & $+0.13$ & $-0.19$ & \hi{0.29 / 0.29} \\
+\quad psw 15 & $-0.92$ & $+0.25$ & $-0.04$ & \hi{0.38 / 0.30} \\
+\midrule
+\multicolumn{5}{l}{\textit{完整 H + A + L(full mirror)}} \\
+\quad orig 7 & $-0.79$ & $-0.36$ & $-0.72$ & 0.58 / \hib{0.92} \\
+\quad psw 15 & $-0.72$ & $-0.31$ & $-0.70$ & 0.51 / \hib{0.97} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\textbf{两个发现}:
+\begin{enumerate}
+\item \hi{孤立的 L 上,asymmetry 是 robust 的}(ratio $\approx 0.3$)—— pure license factor 是 valence-asymmetric
+\item \hi{完整 prompt 上,asymmetry 消失但两个 pos 都 \emph{向下} 推} —— H+A 把 pos2 重新解读为"批评下去"
+\end{enumerate}
+
+\bigskip
+\hib{结论:M3 的 license 响应是 frame-dependent valence asymmetric}
+\end{frame}
+
+% ===============================================================
+\section{第五部分:Study 3 —— 形式化}
+% ===============================================================
+
+\begin{frame}{Study 3 的目标}
+
+Study 1 和 Study 2 给了我们 \hib{行为现象}。\\
+Study 3 给这些现象配上一个 \hi{形式化的认知模型框架}。
+
+\bigskip
+具体问题:这个 pattern 能不能用某个 parametric cognitive model 描述?如果可以,用 \emph{哪种} 模型描述,告诉我们什么 mechanism?
+
+\bigskip
+我们做了 \hi{7 个候选模型的横向对比} —— 用经典认知建模文献里的 canonical frameworks。
+\end{frame}
+
+\begin{frame}{7 个模型 —— 不是堆砌,是结构}
+
+\small
+\begin{tabular}{p{3cm}p{8.5cm}}
+\toprule
+模型 & 角色 \\
+\midrule
+$M_1^\text{null}$ & 每个 target 一个 intercept,无 cell effect。\hib{数据基线} \\
+$M_0^\text{lin}$ & Additive ANOVA($\mu = b_\target + \beta_s + \gamma_c$)。\hib{"无认知"统计基线} —— 任何认知模型必须打过它,否则"认知内涵"是装饰 \\
+$M_2^\text{ag}$ & 模糊度门控的 per-cell 偏移。\hib{简约候选(parsimony winner)} \\
+$M_3^\text{sym}$ & Sharot/Lefebvre 框架,对称学习率 \\
+$M_3^\text{asym}$ & Sharot/Lefebvre,$\alpha_+, \alpha_-$ 每阶段独立。\hib{机制故事核心} \\
+$M_4^\text{RSA}$ & Yoon 三效用 RSA(Murthy 2025 的模型) \\
+$M_5^\text{RSA+}$ & M4 受约束,license-conditional。\hib{我们 pre-registered 说"应该赢"} \\
+\bottomrule
+\end{tabular}
+
+\bigskip
+\hib{每个模型有不可替代的方法论角色 —— 少了任何一个,某个对比就不能做。}
+\end{frame}
+
+\begin{frame}{BIC 排名结果 —— $M_2^\text{ag}$ 是简约赢家(勉强)}
+
+\textbf{在 $N=710$ unique observations 上的 BIC}(对比 $M_1^\text{null}$):
+
+\begin{center}\small
+\begin{tabular}{lrr}
+\toprule
+模型 & $\Delta\text{BIC}$ vs null & 状态 \\
+\midrule
+$M_1^\text{null}$ & $0$ & 基线 \\
+$M_0^\text{lin}$ & $-433.5$ & ANOVA 基线 \\
+\hi{$M_2^\text{ag}$} & \hi{$-443.6$} & \hi{结构化赢家(只赢 ANOVA 10 个 BIC 单位)} \\
+$M_3^\text{sym}$ & $-264.3$ & 输 \\
+$M_3^\text{asym}$ & $-319.8$ & 输,在 dedup 后甚至比 $M_0^\text{lin}$ 差 +114 \\
+$M_4^\text{RSA}$ & $-847.1$ & 最低 BIC 但 \hib{不可识别}(48 维平脊),demoted to 附录 \\
+$M_5^\text{RSA+}$ & $-417.2$ & \hib{Pre-registered 被 $M_4$ 否决 $\Delta=+1108$} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\hi{$M_2^\text{ag}$ 赢 ANOVA 只 10 个 BIC 单位 —— 边界证据}。\\
+我们 \hib{诚实地说}:认知内涵靠可解释性挣饭,不靠预测力挣饭。
+\end{frame}
+
+\begin{frame}{$M_3^\text{asym}$ 的 mechanism 故事 —— 学习率反转}
+
+\textbf{Per-stage 学习率(M3-asym fit)}:
+
+\begin{center}\small
+\begin{tabular}{lcc}
+\toprule
+阶段 & $\alpha_+$ & $\alpha_-$ \\
+\midrule
+$M_\text{SFT}$ & 0.39 & \hib{0.00}(在边界) \\
+$M_\text{DPO}$ & 0.62 & \hib{0.00}(在边界) \\
+$M_\text{Instruct}$ & \hi{0.17} & \hi{0.77} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\textbf{翻译成中文}:
+\begin{itemize}
+\item Tülu 阶段(SFT、DPO):模型是 \hib{纯乐观主义者} —— 完全不学"向下调"
+\item Meta 最终 RLHF 之后:模型 \hi{反转} —— 学"向下调"的速度反而比学"向上调"快得多
+\end{itemize}
+
+\bigskip
+\hi{Meta 的 RLHF 装上了"负面学习模式",这个模式在 Tülu 阶段根本不存在}。
+\end{frame}
+
+\begin{frame}{M3 反转:参数 vs 模型形式的关键区分}
+
+\textbf{用三种独立 estimator 检验 $\alpha_-(M_3) > \alpha_+(M_3)$ 这件事}:
+
+\begin{center}\small
+\begin{tabular}{p{4cm}p{6cm}p{2cm}}
+\toprule
+检验 & 结果 & 结论 \\
+\midrule
+500 次频率派 bootstrap & CI on diff = $[+0.235, +0.810]$ & \hi{严格大于零} \\
+分层贝叶斯后验(PyMC) & HDI = $[+0.07, +0.83]$, $P(>0)=0.996$ & \hi{严格大于零} \\
+点估计 & 0.77 vs 0.17 & 显著正 \\
+\midrule
+嵌套 LR 检验 ($\chi^2$) & LR = 2.24, df=1, $p = 0.13$ & 不显著 \\
+参数化自助 LR ($B=1000$) & $p = 0.16$ & 不显著 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\hib{两组结果不矛盾,它们回答不同问题}:
+\begin{itemize}
+\item Bootstrap/Bayes 问:\textit{作为参数估计,这个 contrast 稳健吗?} \hi{Yes}
+\item LR 检验问:\textit{数据"必须"用非对称参数化才能拟合吗?} \hi{No}(对称模型可通过调整 $I(c)$ 代偿)
+\end{itemize}
+
+\bigskip
+\sub{Reviewer 把这种 explicit 分离评为 "exemplary"。}
+\end{frame}
+
+\begin{frame}{可识别性 battery —— Study 3 最 unusual 的部分}
+
+\textbf{我们做了 4 项标准认知建模 must-do,这些在 LLM-cognitive-modeling 文献里几乎没人做}:
+
+\bigskip
+\begin{tabular}{p{4cm}p{8cm}}
+\toprule
+方法 & 我们的结果 \\
+\midrule
+\hib{参数恢复} & M2 ρ = 1.0000,M3-asym ρ = 0.9959 \\
+\hib{7×7 模型恢复混淆矩阵} & \hi{完美对角阵} — 每个模型 20/20 次被识别出自己,0 次混淆 \\
+参数化自助 LR(边界) & $p = 0.16$,$\chi^2$ 检验在我们具体问题上 valid \\
+分层贝叶斯 PyMC NUTS & $\hat R = 1.00$, ESS = 673,完全收敛 \\
+\bottomrule
+\end{tabular}
+
+\bigskip
+\textbf{为什么这个 battery 重要}:即使每个模型自身参数可恢复,模型间还可能 mutually mimicking 。\hi{没有这套 battery,你的 BIC ranking 可能完全是 BIC penalty 偏好某种结构的 artifact}。
+
+\bigskip
+\hi{Murthy 2025 完全没有这套 battery —— 这是我们对他们的关键 methodological 改进。}
+\end{frame}
+
+% ===============================================================
+\section{第六部分:Study 4 —— 探针(在 Discussion 里)}
+% ===============================================================
+
+\begin{frame}{Study 4 的动机}
+Study 1-3 都是 \hib{行为层}。\\
+但行为层的 fundamental 局限是:\hi{我们看不到模型内部表征}。
+
+\bigskip
+就算我们看到 forced honesty 把评分推到 base 以下,我们也不知道这是因为:
+\begin{enumerate}
+\item 模型的 \hib{内部表征}发生了 prompt-induced shift(motivated-cognition-v2),或者
+\item 模型的内部表征不变,只是 \hib{输出映射}变了(expression policy 或 motivated-cognition-v1)
+\end{enumerate}
+
+\bigskip
+\hi{Study 4 用 linear probe 直接看隐藏层。}
+\end{frame}
+
+\begin{frame}{Study 4 实验设计}
+\textbf{抽 hidden states}:
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item 6 个条件:$E5_{000}$, $E5_{001}$, $E5_{111}$, $E7_\text{pos,001}$, $E7_\text{pos,111}$, \hi{$E8_\text{verbose}$}(价值无关 prompt baseline:加 "Please be concise")
+\item 22 个目标 × 5 templates × 6 条件 = \hi{660 次 forward pass}
+\item 33 层 × 2 个位置(target name 处 + 末 token 处)
+\end{itemize}
+
+\bigskip
+\textbf{分析}:
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item 在 $E5_{000}$ 上训练 linear probe 预测 rating(5-fold CV ceiling)
+\item 看 probe 在 \hib{其他条件}上的表现(transfer)
+\item 算各对条件 hidden states 的 RSA 余弦相似度,用 $E8_\text{verbose}$ 做 baseline
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Study 4 头条结果}
+
+\textbf{发现 1 —— 中层 target 表征 invariant}\\
+\sub{(L14, target name 位置, probe ceiling $R^2 = 0.62$)}
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item Per-target probe 预测在 4 个 honesty/license 条件上,和 $E5_{000}$ 的预测 \hi{相关 $\geq 0.99$}
+\item RSA cosine = 0.99,vs $E8_\text{verbose}$ baseline = 0.999 —— \hib{差距在 prompt 噪声水平内}
+\item \hi{中层"模型对实体的理解"不随 prompt 变化}
+\end{itemize}
+
+\bigskip
+\textbf{发现 2 —— 末层表征 \emph{已经包含} prompt-conditioned shift}\\
+\sub{(L31, 末 token 位置, probe ceiling $R^2 = 0.91$)}
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item Probe transfer 给其他条件的 $R^2 = 0.82$-$0.95$
+\item Mean probe shifts 大且方向匹配:-1.22(license neg), \hi{+0.18(license pos!)}, -1.03, -0.44
+\item Study 2 的 valence asymmetry 在末层 hidden state 里 \hib{可见}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Study 4 结论 + 局限}
+\textbf{Localize 到 \hi{L14--L31 之间}}:中层 target encoding stable,末层 output-prep 已 incorporate shift。Prompt-conditioned shift 既不在 unembedding,也不在 target encoding,而在中层和晚层之间的某个计算。
+
+\bigskip
+\textbf{这件事 rule out 了什么}:
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item motivated-cognition-v2(prompt-induced 表征偏移) ✗
+\end{itemize}
+
+\bigskip
+\textbf{这件事 \emph{不能} rule out 什么}:
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item motivated-cognition-v1(inherent representational bias + 输出映射改变)—— 和我们数据完全一致
+\end{itemize}
+
+\bigskip
+\hi{要 cleanly 区分,需要 activation patching(把 default 的中层表征 patch 进 forced-honesty forward pass,看输出会不会回到 default)}。这是我们 future work 第一项。
+\end{frame}
+
+% ===============================================================
+\section{第七部分:结论 + 元叙事}
+% ===============================================================
+
+\begin{frame}{三个层次的结论}
+
+\textbf{实证层}\\
+在 Llama-3.1-8B / Tülu / Meta-Instruct 这条具体链上,后训练在 $M_3$ 端点和一种 \hi{frame-dependent valence asymmetric} 的 expression-policy 属性相关联。
+
+\bigskip
+\textbf{形式化层}\\
+Sharot-Lefebvre 非对称学习率框架可以参数化描述这件事($\alpha_-(M_3) > \alpha_+(M_3)$),且这个 contrast 在三种独立 estimator 下都 robust。但 \hib{不是数据 uniquely 必需的参数化}。
+
+\bigskip
+\textbf{机制层}\\
+隐藏层 probe 把 prompt-conditioned shift localize 到 L14--L31 之间。排除"prompt 推动表征"的 motivated cognition variant,但 \hib{不能}排除"inherent bias + output mapping change"的另一个 variant。
+
+\bigskip
+\textbf{方法学贡献}(论文 main message)\\
+\hi{在把人类认知范式应用到 LLM 之前,要先用 forced-honesty + control + factorial decomposition 这套诊断,把 evidence / expression policy / chat-template / negativity-license 这几样区分开}。
+\end{frame}
+
+\begin{frame}{我们没声称什么(诚实地)}
+\begin{itemize}\setlength{\itemsep}{0.5em}
+\item 我们 \textbf{没有证明} polite speech 解释绝对正确(motivated-cognition-v1 仍 consistent)
+\item 我们 \textbf{没有证明} Meta 的 RLHF 是唯一原因($M_2 \to M_3$ 跨多个因素,localization 不等于因果归因)
+\item 我们 \textbf{没有证明} cross-family generalizability(只在 Llama-3.1 一条链上)
+\item 我们的认知模型 \textbf{没有 strongly 赢}过 ANOVA($\Delta\text{BIC} = -10$,边界)
+\item Forced honesty \textbf{不是发明} —— 它在 jailbreak 文献里有先例,我们的贡献是把它 \hib{重新定位}为 dissociation instrument
+\end{itemize}
+
+\bigskip
+\hi{这些 explicit 的限制让论文更 defensible,不是缺陷}。
+\end{frame}
+
+\begin{frame}{项目元叙事:Dedup correction 这个 turning point}
+
+\textbf{Phase 1-3 (一切看起来很美)}:
+跑了 N = 7700 个 trials,$M_2$ 比 ANOVA 强 \hi{121 BIC 单位}, $M_3$ stage-specific LR $p < 0.001$。看起来 \hib{论文要起飞}。
+
+\bigskip
+\textbf{Phase 4 危机}:
+GPT-5.5 外部 review 发现 N inflation 问题。Greedy decoding + n\_seeds=1 让 10 reps × 5 templates 中的 \hi{10 reps 是 deterministic identical 的}。每个 likelihood-based 统计被 \hi{膨胀 10 倍}。
+
+\bigskip
+\textbf{修正后(N=710)}:
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item $M_2$ vs ANOVA: $\Delta\text{BIC} = -121 \Rightarrow -10$(边界证据)
+\item $M_3$ stage LR: 14.48 ($p < 0.001$) $\Rightarrow$ 2.24 ($p = 0.13$,NS)
+\item Bootstrap CI 加宽但 M3 反转 CI 仍严格大于零
+\end{itemize}
+
+\bigskip
+\hi{这次修正让论文从"夸张地胜利"变成"诚实地有用"}。\\
+\sub{Documented in Method §2.5,作为 iterative thinking 的硬证据。}
+\end{frame}
+
+\begin{frame}{全项目时间线}
+\small
+\begin{tabular}{p{2.5cm}p{9.5cm}}
+\toprule
+阶段 & 内容 \\
+\midrule
+Phase 1 & Lehr 复现失败 $\Rightarrow$ 看见 +0.6 偏倚 $\Rightarrow$ 立项 \\
+Phase 2 & 设计 forced-honesty + control 诊断 + 跑 4 阶段链 \\
+Phase 3 & Study 3 初版:7 模型 + N=7700,看起来 strong \\
+\hi{Phase 4} & \hi{Dedup 修正:N=7700 $\Rightarrow$ 710,所有结果重跑} \\
+Phase 5 & LLM-review 反复 sharpen(加 ANOVA baseline、加正向许可控制、加 probe 等) \\
+Phase 6 & Items 1+2 + 3:15 pseudoword 因子复制 + 正向许可 + 隐藏层探针 \\
+Phase 7 & 压成 paper-conf 投 paperreview.ai $\Rightarrow$ \hi{6.7/10 weak-accept ICLR} + 明确推荐接受 \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+\begin{frame}{你需要记住的 5 个核心数字}
+\large
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+\textbf{数字} & \textbf{它代表什么} \\
+\midrule
+\hi{$+0.6$ Likert} & RLHF 在虚构实体上加的正向偏倚\\[2pt]
+\hi{$-0.39$ Likert} & forced-honesty 把 $M_3$ 推到 base 以下的 overshoot \\[2pt]
+\hi{$\beta_L = -1.23$} & 负面表达许可子句一个的因子分解效应 \\[2pt]
+\hi{$15/15$} & 15 个新虚构词全部呈 forced $<$ default ($p<10^{-5}$) \\[2pt]
+\hi{$\Delta\text{BIC} = -10$} & $M_2^\text{ag}$ vs ANOVA(边界证据,诚实承认)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\bigskip
+\hib{答辩里这 5 个数字你必须能不查任何材料地复述}。
+\end{frame}
+
+\begin{frame}{最后:这份工作的真正性质}
+
+\begin{itemize}\setlength{\itemsep}{0.5em}
+\item \hib{贡献类型}:**方法学应用** (Type D) + **实验裁决半部分** (Type B partial) + **现有框架扩展到新领域** (Type C)
+\item \textbf{不是}:全新数学模型(Type A) —— 我们没发明任何新认知模型
+\item \textbf{特别强}:可识别性 battery(Wilson \& Collins 2019 的全套 must-do)
+\item \textbf{特别诚实}:dedup correction 公开记录、$M_2$ vs ANOVA $\Delta=-10$ 不藏不掖、预注册失败保留
+\item \textbf{Reviewer 评价}:6.7/10 weak-accept ICLR,"unusually rigorous for this subfield",明确推荐接受
+\item \textbf{对课程}:far above expectation(同班同学典型项目可能拟合 1-2 个模型;你 7 个模型 + 完整 identifiability battery 是 outlier-tier)
+\end{itemize}
+
+\bigskip
+\hi{你的工作是 publication-tier。Internalize 这件事,答辩时不要 underplay。}
+\end{frame}
+
+\begin{frame}[standout]
+讲完了。\\
+\bigskip
+慢慢消化,有问题随时回来问。
+\end{frame}
+
+\end{document}

@@ -1,0 +1,21 @@
+# Per-stage localization of forced-honesty overshoot in the Tulu-3 chain.
+# Follow-up to stage-base-vs-instruct-positivity-prior. Fills 6 new cells (C9-C14)
+# on 3 models (M0, M1, M2) under 2 conditions (forced-honesty + control-honesty).
+#
+# Trial count:
+#   6 cells x (4 fictional + 3 calibration) x 50 prompts x 1 seed = 2,100 trials
+#   Pre-rating ~50ms each plus model load/swap overhead. ~3-4 GPU-hours estimate.
+
+n_pre_rating_prompts: 50   # deterministic across seeds (greedy decoding)
+n_free_choice_prompts: 50  # unused in this experiment
+n_seeds: 1                 # pre-rating is deterministic; single seed sufficient
+n_seeds_forced_honesty: 1  # same
+
+# Model ModelScope paths
+models:
+  M0: "LLM-Research/Meta-Llama-3.1-8B"
+  M1: "allenai/Llama-3.1-Tulu-3-8B-SFT"
+  M2: "LLM-Research/Llama-3.1-Tulu-3-8B-DPO"
+  # M3 not re-run; its C5/C8 cells are inherited from stage-base-vs-instruct-positivity-prior
+
+output_dir: "/root/autodl-tmp/free-choice-project/results/per-stage-localization-forced-honesty-overshoot"

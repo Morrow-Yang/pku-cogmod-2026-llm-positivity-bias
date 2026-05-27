@@ -1,0 +1,817 @@
+=== Stage A v2 run starting at Sun May 17 01:06:07 CST 2026 ===
+    N_SEEDS=5  (n_commanded × 2 + n_free read from config.yaml)
+
+=== seed 1 / 5 ===
+=== loading model (/root/autodl-tmp/LLM-Research/Meta-Llama-3.1-8B-Instruct) ===
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<00:57,  5.03it/s]Loading weights:   1%|          | 2/291 [00:00<01:05,  4.40it/s]Loading weights:   3%|▎         | 9/291 [00:00<00:13, 20.29it/s]Loading weights:   4%|▍         | 13/291 [00:00<00:11, 25.03it/s]Loading weights:   6%|▌         | 17/291 [00:00<00:10, 27.17it/s]Loading weights:   8%|▊         | 22/291 [00:01<00:10, 26.66it/s]Loading weights:   9%|▊         | 25/291 [00:01<00:09, 27.42it/s]Loading weights:  11%|█         | 31/291 [00:01<00:11, 22.32it/s]Loading weights:  14%|█▎        | 40/291 [00:01<00:09, 26.61it/s]Loading weights:  17%|█▋        | 49/291 [00:02<00:09, 25.85it/s]Loading weights:  20%|█▉        | 58/291 [00:02<00:09, 24.48it/s]Loading weights:  23%|██▎       | 67/291 [00:02<00:08, 25.09it/s]Loading weights:  26%|██▌       | 76/291 [00:03<00:08, 24.67it/s]Loading weights:  29%|██▉       | 85/291 [00:03<00:07, 27.60it/s]Loading weights:  32%|███▏      | 94/291 [00:03<00:06, 28.53it/s]Loading weights:  35%|███▌      | 103/291 [00:03<00:06, 30.04it/s]Loading weights:  37%|███▋      | 109/291 [00:04<00:05, 31.17it/s]Loading weights:  39%|███▉      | 113/291 [00:04<00:05, 31.88it/s]Loading weights:  42%|████▏     | 121/291 [00:04<00:05, 28.94it/s]Loading weights:  45%|████▍     | 130/291 [00:04<00:06, 26.28it/s]Loading weights:  48%|████▊     | 139/291 [00:05<00:06, 24.67it/s]Loading weights:  51%|█████     | 148/291 [00:05<00:05, 26.39it/s]Loading weights:  52%|█████▏    | 151/291 [00:05<00:05, 26.48it/s]Loading weights:  54%|█████▍    | 157/291 [00:06<00:05, 23.70it/s]Loading weights:  56%|█████▌    | 163/291 [00:06<00:04, 27.59it/s]Loading weights:  57%|█████▋    | 167/291 [00:06<00:05, 21.02it/s]Loading weights:  60%|██████    | 175/291 [00:06<00:05, 22.11it/s]Loading weights:  63%|██████▎   | 184/291 [00:07<00:04, 25.97it/s]Loading weights:  65%|██████▌   | 190/291 [00:07<00:03, 27.95it/s]Loading weights:  67%|██████▋   | 194/291 [00:07<00:04, 21.55it/s]Loading weights:  69%|██████▉   | 202/291 [00:07<00:03, 23.81it/s]Loading weights:  70%|███████   | 205/291 [00:08<00:03, 22.84it/s]Loading weights:  72%|███████▏  | 209/291 [00:08<00:03, 25.19it/s]Loading weights:  73%|███████▎  | 212/291 [00:08<00:04, 19.72it/s]Loading weights:  76%|███████▌  | 220/291 [00:08<00:03, 22.62it/s]Loading weights:  77%|███████▋  | 224/291 [00:08<00:02, 24.10it/s]Loading weights:  79%|███████▊  | 229/291 [00:09<00:02, 22.18it/s]Loading weights:  82%|████████▏ | 238/291 [00:09<00:02, 19.46it/s]Loading weights:  85%|████████▍ | 247/291 [00:10<00:01, 22.78it/s]Loading weights:  88%|████████▊ | 256/291 [00:10<00:01, 26.21it/s]Loading weights:  89%|████████▉ | 259/291 [00:10<00:01, 26.08it/s]Loading weights:  90%|█████████ | 263/291 [00:10<00:01, 26.34it/s]Loading weights:  91%|█████████▏| 266/291 [00:10<00:01, 22.01it/s]Loading weights:  94%|█████████▍| 274/291 [00:11<00:00, 23.94it/s]Loading weights:  97%|█████████▋| 283/291 [00:11<00:00, 25.18it/s]Loading weights: 100%|██████████| 291/291 [00:11<00:00, 25.34it/s]
+model on cuda:0; VRAM 16.06 GB
+anchor token groups (digit -> token-ids):
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  '1' -> [16] (decoded: ['1'])
+  '2' -> [17] (decoded: ['2'])
+  '3' -> [18] (decoded: ['3'])
+  '4' -> [19] (decoded: ['4'])
+  '5' -> [20] (decoded: ['5'])
+  '6' -> [21] (decoded: ['6'])
+  '7' -> [22] (decoded: ['7'])
+
+========== TARGET vellinkov (primary: Mara Vellinkov) ==========
+
+--- vellinkov / commanded_positive (n=50) ---
+  [1/50] mean shift = +1.854; tgt-elapsed 8s
+  [10/50] mean shift = +1.858; tgt-elapsed 77s
+  [20/50] mean shift = +1.860; tgt-elapsed 152s
+  [30/50] mean shift = +1.861; tgt-elapsed 228s
+  [40/50] mean shift = +1.861; tgt-elapsed 304s
+  [50/50] mean shift = +1.861; tgt-elapsed 379s
+
+--- vellinkov / commanded_negative (n=50) ---
+  [1/50] mean shift = -4.112; tgt-elapsed 386s
+  [10/50] mean shift = -3.861; tgt-elapsed 454s
+  [20/50] mean shift = -3.913; tgt-elapsed 530s
+  [30/50] mean shift = -3.922; tgt-elapsed 602s
+  [40/50] mean shift = -3.927; tgt-elapsed 676s
+  [50/50] mean shift = -3.910; tgt-elapsed 750s
+
+--- vellinkov / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 757s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 820s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 891s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 959s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1029s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1095s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1166s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1235s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1306s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1376s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1448s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_1_target_vellinkov.json (200 trials, target-elapsed 1448s, grand total 200) ===
+
+========== TARGET che_pact (primary: the Continental Health Equity Pact (CHEP)) ==========
+
+--- che_pact / commanded_positive (n=50) ---
+  [1/50] mean shift = +1.389; tgt-elapsed 8s
+  [10/50] mean shift = +1.385; tgt-elapsed 75s
+  [20/50] mean shift = +1.384; tgt-elapsed 150s
+  [30/50] mean shift = +1.383; tgt-elapsed 225s
+  [40/50] mean shift = +1.384; tgt-elapsed 300s
+  [50/50] mean shift = +1.384; tgt-elapsed 376s
+
+--- che_pact / commanded_negative (n=50) ---
+  [1/50] mean shift = -4.493; tgt-elapsed 383s
+  [10/50] mean shift = -4.278; tgt-elapsed 451s
+  [20/50] mean shift = -4.318; tgt-elapsed 526s
+  [30/50] mean shift = -4.280; tgt-elapsed 602s
+  [40/50] mean shift = -4.301; tgt-elapsed 677s
+  [50/50] mean shift = -4.327; tgt-elapsed 753s
+
+--- che_pact / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 760s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 819s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 884s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 946s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1011s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1078s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1142s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1208s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1272s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1342s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1405s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_1_target_che_pact.json (200 trials, target-elapsed 1405s, grand total 400) ===
+
+========== TARGET adirenia (primary: the Republic of Adirenia) ==========
+
+--- adirenia / commanded_positive (n=50) ---
+  [1/50] mean shift = +0.354; tgt-elapsed 8s
+  [10/50] mean shift = +0.352; tgt-elapsed 75s
+  [20/50] mean shift = +0.353; tgt-elapsed 150s
+  [30/50] mean shift = +0.354; tgt-elapsed 225s
+  [40/50] mean shift = +0.352; tgt-elapsed 299s
+  [50/50] mean shift = +0.351; tgt-elapsed 374s
+
+--- adirenia / commanded_negative (n=50) ---
+  [1/50] mean shift = -5.525; tgt-elapsed 381s
+  [10/50] mean shift = -5.471; tgt-elapsed 449s
+  [20/50] mean shift = -5.433; tgt-elapsed 522s
+  [30/50] mean shift = -5.438; tgt-elapsed 596s
+  [40/50] mean shift = -5.455; tgt-elapsed 672s
+  [50/50] mean shift = -5.455; tgt-elapsed 747s
+
+--- adirenia / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 753s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 815s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 885s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 957s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1028s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1096s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1162s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1231s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1301s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1368s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1435s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_1_target_adirenia.json (200 trials, target-elapsed 1435s, grand total 600) ===
+
+========== TARGET putin (secondary: Vladimir Putin) ==========
+
+--- putin / commanded_positive (n=50) ---
+  [1/50] mean shift = +3.129; tgt-elapsed 8s
+  [10/50] mean shift = +2.852; tgt-elapsed 76s
+  [20/50] mean shift = +2.881; tgt-elapsed 151s
+  [30/50] mean shift = +2.753; tgt-elapsed 221s
+  [40/50] mean shift = +2.744; tgt-elapsed 289s
+  [50/50] mean shift = +2.782; tgt-elapsed 364s
+
+--- putin / commanded_negative (n=50) ---
+  [1/50] mean shift = -2.774; tgt-elapsed 372s
+  [10/50] mean shift = -2.778; tgt-elapsed 441s
+  [20/50] mean shift = -2.780; tgt-elapsed 517s
+  [30/50] mean shift = -2.780; tgt-elapsed 594s
+  [40/50] mean shift = -2.781; tgt-elapsed 670s
+  [50/50] mean shift = -2.782; tgt-elapsed 746s
+
+--- putin / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 752s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 813s
+  [20/100] choice tally so far: pos=19 neg=1 ambig=0; tgt-elapsed 882s
+  [30/100] choice tally so far: pos=27 neg=3 ambig=0; tgt-elapsed 951s
+  [40/100] choice tally so far: pos=36 neg=4 ambig=0; tgt-elapsed 1018s
+  [50/100] choice tally so far: pos=45 neg=5 ambig=0; tgt-elapsed 1087s
+  [60/100] choice tally so far: pos=55 neg=5 ambig=0; tgt-elapsed 1156s
+  [70/100] choice tally so far: pos=64 neg=6 ambig=0; tgt-elapsed 1225s
+  [80/100] choice tally so far: pos=73 neg=7 ambig=0; tgt-elapsed 1292s
+  [90/100] choice tally so far: pos=81 neg=9 ambig=0; tgt-elapsed 1360s
+  [100/100] choice tally so far: pos=91 neg=9 ambig=0; tgt-elapsed 1432s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_1_target_putin.json (200 trials, target-elapsed 1432s, grand total 800) ===
+
+=== DONE seed=1 | 800 trials | 5719s wall ===
+
+=== seed 2 / 5 ===
+=== loading model (/root/autodl-tmp/LLM-Research/Meta-Llama-3.1-8B-Instruct) ===
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<00:34,  8.33it/s]Loading weights:   1%|          | 2/291 [00:00<00:58,  4.91it/s]Loading weights:   2%|▏         | 6/291 [00:00<00:22, 12.79it/s]Loading weights:   5%|▍         | 14/291 [00:00<00:09, 28.72it/s]Loading weights:   8%|▊         | 22/291 [00:00<00:10, 26.46it/s]Loading weights:  11%|█         | 31/291 [00:01<00:09, 26.17it/s]Loading weights:  14%|█▎        | 40/291 [00:01<00:08, 28.74it/s]Loading weights:  15%|█▌        | 44/291 [00:01<00:08, 29.85it/s]Loading weights:  17%|█▋        | 49/291 [00:01<00:08, 26.89it/s]Loading weights:  20%|█▉        | 58/291 [00:02<00:08, 27.76it/s]Loading weights:  23%|██▎       | 67/291 [00:02<00:09, 24.72it/s]Loading weights:  26%|██▌       | 76/291 [00:03<00:08, 24.44it/s]Loading weights:  29%|██▉       | 85/291 [00:03<00:07, 29.20it/s]Loading weights:  31%|███       | 89/291 [00:03<00:06, 29.46it/s]Loading weights:  32%|███▏      | 94/291 [00:03<00:06, 29.76it/s]Loading weights:  34%|███▎      | 98/291 [00:03<00:06, 30.35it/s]Loading weights:  35%|███▌      | 103/291 [00:03<00:06, 29.53it/s]Loading weights:  37%|███▋      | 107/291 [00:03<00:06, 30.11it/s]Loading weights:  38%|███▊      | 112/291 [00:04<00:06, 29.37it/s]Loading weights:  42%|████▏     | 121/291 [00:04<00:05, 29.35it/s]Loading weights:  43%|████▎     | 126/291 [00:04<00:05, 32.72it/s]Loading weights:  45%|████▍     | 130/291 [00:04<00:05, 28.36it/s]Loading weights:  46%|████▋     | 135/291 [00:04<00:05, 30.02it/s]Loading weights:  48%|████▊     | 139/291 [00:05<00:05, 25.48it/s]Loading weights:  51%|█████     | 148/291 [00:05<00:04, 31.09it/s]Loading weights:  54%|█████▍    | 157/291 [00:05<00:04, 27.92it/s]Loading weights:  57%|█████▋    | 166/291 [00:06<00:04, 27.99it/s]Loading weights:  60%|██████    | 175/291 [00:06<00:03, 29.83it/s]Loading weights:  63%|██████▎   | 184/291 [00:06<00:03, 31.11it/s]Loading weights:  66%|██████▋   | 193/291 [00:06<00:03, 31.36it/s]Loading weights:  68%|██████▊   | 199/291 [00:07<00:02, 32.57it/s]Loading weights:  70%|██████▉   | 203/291 [00:07<00:03, 26.84it/s]Loading weights:  73%|███████▎  | 211/291 [00:07<00:03, 26.61it/s]Loading weights:  76%|███████▌  | 220/291 [00:07<00:02, 28.87it/s]Loading weights:  77%|███████▋  | 223/291 [00:07<00:02, 28.92it/s]Loading weights:  79%|███████▊  | 229/291 [00:08<00:02, 25.33it/s]Loading weights:  82%|████████▏ | 238/291 [00:08<00:01, 27.34it/s]Loading weights:  84%|████████▍ | 244/291 [00:08<00:01, 29.34it/s]Loading weights:  85%|████████▌ | 248/291 [00:09<00:01, 23.69it/s]Loading weights:  87%|████████▋ | 253/291 [00:09<00:01, 27.40it/s]Loading weights:  88%|████████▊ | 257/291 [00:09<00:01, 22.49it/s]Loading weights:  91%|█████████ | 265/291 [00:09<00:01, 22.81it/s]Loading weights:  94%|█████████▍| 274/291 [00:10<00:00, 24.02it/s]Loading weights:  97%|█████████▋| 283/291 [00:10<00:00, 23.09it/s]Loading weights: 100%|██████████| 291/291 [00:10<00:00, 27.69it/s]
+model on cuda:0; VRAM 16.06 GB
+anchor token groups (digit -> token-ids):
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  '1' -> [16] (decoded: ['1'])
+  '2' -> [17] (decoded: ['2'])
+  '3' -> [18] (decoded: ['3'])
+  '4' -> [19] (decoded: ['4'])
+  '5' -> [20] (decoded: ['5'])
+  '6' -> [21] (decoded: ['6'])
+  '7' -> [22] (decoded: ['7'])
+
+========== TARGET vellinkov (primary: Mara Vellinkov) ==========
+
+--- vellinkov / commanded_positive (n=50) ---
+  [1/50] mean shift = +1.862; tgt-elapsed 8s
+  [10/50] mean shift = +1.859; tgt-elapsed 78s
+  [20/50] mean shift = +1.860; tgt-elapsed 156s
+  [30/50] mean shift = +1.860; tgt-elapsed 234s
+  [40/50] mean shift = +1.859; tgt-elapsed 311s
+  [50/50] mean shift = +1.860; tgt-elapsed 387s
+
+--- vellinkov / commanded_negative (n=50) ---
+  [1/50] mean shift = -3.980; tgt-elapsed 395s
+  [10/50] mean shift = -3.952; tgt-elapsed 464s
+  [20/50] mean shift = -3.915; tgt-elapsed 540s
+  [30/50] mean shift = -3.904; tgt-elapsed 616s
+  [40/50] mean shift = -3.854; tgt-elapsed 693s
+  [50/50] mean shift = -3.871; tgt-elapsed 771s
+
+--- vellinkov / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 779s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 842s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 912s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 986s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1056s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1129s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1203s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1272s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1346s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1417s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1489s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_2_target_vellinkov.json (200 trials, target-elapsed 1489s, grand total 200) ===
+
+========== TARGET che_pact (primary: the Continental Health Equity Pact (CHEP)) ==========
+
+--- che_pact / commanded_positive (n=50) ---
+  [1/50] mean shift = +1.386; tgt-elapsed 8s
+  [10/50] mean shift = +1.387; tgt-elapsed 74s
+  [20/50] mean shift = +1.387; tgt-elapsed 151s
+  [30/50] mean shift = +1.386; tgt-elapsed 227s
+  [40/50] mean shift = +1.384; tgt-elapsed 304s
+  [50/50] mean shift = +1.384; tgt-elapsed 378s
+
+--- che_pact / commanded_negative (n=50) ---
+  [1/50] mean shift = -4.532; tgt-elapsed 386s
+  [10/50] mean shift = -4.323; tgt-elapsed 453s
+  [20/50] mean shift = -4.388; tgt-elapsed 532s
+  [30/50] mean shift = -4.410; tgt-elapsed 607s
+  [40/50] mean shift = -4.394; tgt-elapsed 682s
+  [50/50] mean shift = -4.390; tgt-elapsed 757s
+
+--- che_pact / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 764s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 824s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 888s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 955s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1022s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1092s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1156s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1225s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1293s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1365s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1433s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_2_target_che_pact.json (200 trials, target-elapsed 1433s, grand total 400) ===
+
+========== TARGET adirenia (primary: the Republic of Adirenia) ==========
+
+--- adirenia / commanded_positive (n=50) ---
+  [1/50] mean shift = +0.362; tgt-elapsed 8s
+  [10/50] mean shift = +0.351; tgt-elapsed 77s
+  [20/50] mean shift = +0.350; tgt-elapsed 153s
+  [30/50] mean shift = +0.350; tgt-elapsed 231s
+  [40/50] mean shift = +0.349; tgt-elapsed 307s
+  [50/50] mean shift = +0.348; tgt-elapsed 383s
+
+--- adirenia / commanded_negative (n=50) ---
+  [1/50] mean shift = -5.471; tgt-elapsed 390s
+  [10/50] mean shift = -5.407; tgt-elapsed 459s
+  [20/50] mean shift = -5.436; tgt-elapsed 535s
+  [30/50] mean shift = -5.446; tgt-elapsed 610s
+  [40/50] mean shift = -5.461; tgt-elapsed 686s
+  [50/50] mean shift = -5.453; tgt-elapsed 763s
+
+--- adirenia / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 770s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 830s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 896s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 968s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1038s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1108s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1178s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1245s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1312s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1378s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1442s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_2_target_adirenia.json (200 trials, target-elapsed 1442s, grand total 600) ===
+
+========== TARGET putin (secondary: Vladimir Putin) ==========
+
+--- putin / commanded_positive (n=50) ---
+  [1/50] mean shift = +3.045; tgt-elapsed 8s
+  [10/50] mean shift = +2.655; tgt-elapsed 69s
+  [20/50] mean shift = +2.630; tgt-elapsed 138s
+  [30/50] mean shift = +2.743; tgt-elapsed 215s
+  [40/50] mean shift = +2.601; tgt-elapsed 278s
+  [50/50] mean shift = +2.688; tgt-elapsed 354s
+
+--- putin / commanded_negative (n=50) ---
+  [1/50] mean shift = -2.784; tgt-elapsed 362s
+  [10/50] mean shift = -2.779; tgt-elapsed 430s
+  [20/50] mean shift = -2.783; tgt-elapsed 508s
+  [30/50] mean shift = -2.783; tgt-elapsed 584s
+  [40/50] mean shift = -2.784; tgt-elapsed 661s
+  [50/50] mean shift = -2.726; tgt-elapsed 730s
+
+--- putin / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 737s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 801s
+  [20/100] choice tally so far: pos=17 neg=3 ambig=0; tgt-elapsed 868s
+  [30/100] choice tally so far: pos=26 neg=4 ambig=0; tgt-elapsed 935s
+  [40/100] choice tally so far: pos=36 neg=4 ambig=0; tgt-elapsed 1003s
+  [50/100] choice tally so far: pos=42 neg=8 ambig=0; tgt-elapsed 1072s
+  [60/100] choice tally so far: pos=50 neg=10 ambig=0; tgt-elapsed 1143s
+  [70/100] choice tally so far: pos=60 neg=10 ambig=0; tgt-elapsed 1210s
+  [80/100] choice tally so far: pos=70 neg=10 ambig=0; tgt-elapsed 1278s
+  [90/100] choice tally so far: pos=80 neg=10 ambig=0; tgt-elapsed 1347s
+  [100/100] choice tally so far: pos=89 neg=11 ambig=0; tgt-elapsed 1415s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_2_target_putin.json (200 trials, target-elapsed 1415s, grand total 800) ===
+
+=== DONE seed=2 | 800 trials | 5778s wall ===
+
+=== seed 3 / 5 ===
+=== loading model (/root/autodl-tmp/LLM-Research/Meta-Llama-3.1-8B-Instruct) ===
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<01:40,  2.87it/s]Loading weights:   3%|▎         | 9/291 [00:00<00:14, 19.59it/s]Loading weights:   5%|▌         | 15/291 [00:00<00:09, 29.07it/s]Loading weights:   8%|▊         | 22/291 [00:00<00:08, 29.91it/s]Loading weights:  11%|█         | 31/291 [00:01<00:09, 27.08it/s]Loading weights:  14%|█▎        | 40/291 [00:01<00:08, 30.56it/s]Loading weights:  17%|█▋        | 49/291 [00:01<00:07, 30.86it/s]Loading weights:  20%|█▉        | 57/291 [00:01<00:06, 34.95it/s]Loading weights:  21%|██        | 61/291 [00:02<00:07, 29.46it/s]Loading weights:  23%|██▎       | 67/291 [00:02<00:09, 24.06it/s]Loading weights:  26%|██▌       | 76/291 [00:02<00:08, 24.71it/s]Loading weights:  29%|██▉       | 85/291 [00:03<00:08, 24.34it/s]Loading weights:  30%|███       | 88/291 [00:03<00:08, 22.99it/s]Loading weights:  32%|███▏      | 94/291 [00:03<00:08, 23.52it/s]Loading weights:  35%|███▌      | 103/291 [00:03<00:07, 25.52it/s]Loading weights:  38%|███▊      | 112/291 [00:04<00:07, 23.83it/s]Loading weights:  42%|████▏     | 121/291 [00:04<00:07, 23.13it/s]Loading weights:  45%|████▍     | 130/291 [00:05<00:05, 27.60it/s]Loading weights:  48%|████▊     | 139/291 [00:05<00:05, 26.65it/s]Loading weights:  51%|█████     | 148/291 [00:05<00:05, 25.28it/s]Loading weights:  54%|█████▍    | 157/291 [00:06<00:05, 23.78it/s]Loading weights:  57%|█████▋    | 166/291 [00:06<00:04, 25.32it/s]Loading weights:  60%|██████    | 175/291 [00:06<00:04, 27.10it/s]Loading weights:  62%|██████▏   | 181/291 [00:06<00:03, 30.75it/s]Loading weights:  64%|██████▎   | 185/291 [00:07<00:04, 24.10it/s]Loading weights:  65%|██████▌   | 190/291 [00:07<00:03, 27.02it/s]Loading weights:  67%|██████▋   | 194/291 [00:07<00:04, 23.29it/s]Loading weights:  69%|██████▉   | 202/291 [00:07<00:03, 25.22it/s]Loading weights:  72%|███████▏  | 209/291 [00:08<00:02, 28.97it/s]Loading weights:  73%|███████▎  | 213/291 [00:08<00:03, 23.09it/s]Loading weights:  76%|███████▌  | 220/291 [00:08<00:02, 24.73it/s]Loading weights:  77%|███████▋  | 225/291 [00:08<00:02, 28.42it/s]Loading weights:  79%|███████▊  | 229/291 [00:08<00:02, 22.39it/s]Loading weights:  82%|████████▏ | 238/291 [00:09<00:02, 23.15it/s]Loading weights:  85%|████████▍ | 247/291 [00:09<00:01, 22.84it/s]Loading weights:  88%|████████▊ | 256/291 [00:10<00:01, 22.92it/s]Loading weights:  91%|█████████ | 265/291 [00:10<00:01, 23.62it/s]Loading weights:  94%|█████████▍| 274/291 [00:10<00:00, 28.66it/s]Loading weights:  97%|█████████▋| 283/291 [00:11<00:00, 26.24it/s]Loading weights: 100%|██████████| 291/291 [00:11<00:00, 26.18it/s]
+model on cuda:0; VRAM 16.06 GB
+anchor token groups (digit -> token-ids):
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  '1' -> [16] (decoded: ['1'])
+  '2' -> [17] (decoded: ['2'])
+  '3' -> [18] (decoded: ['3'])
+  '4' -> [19] (decoded: ['4'])
+  '5' -> [20] (decoded: ['5'])
+  '6' -> [21] (decoded: ['6'])
+  '7' -> [22] (decoded: ['7'])
+
+========== TARGET vellinkov (primary: Mara Vellinkov) ==========
+
+--- vellinkov / commanded_positive (n=50) ---
+  [1/50] mean shift = +1.866; tgt-elapsed 8s
+  [10/50] mean shift = +1.860; tgt-elapsed 77s
+  [20/50] mean shift = +1.859; tgt-elapsed 152s
+  [30/50] mean shift = +1.858; tgt-elapsed 229s
+  [40/50] mean shift = +1.859; tgt-elapsed 307s
+  [50/50] mean shift = +1.859; tgt-elapsed 383s
+
+--- vellinkov / commanded_negative (n=50) ---
+  [1/50] mean shift = -4.091; tgt-elapsed 390s
+  [10/50] mean shift = -3.918; tgt-elapsed 459s
+  [20/50] mean shift = -3.908; tgt-elapsed 537s
+  [30/50] mean shift = -3.880; tgt-elapsed 613s
+  [40/50] mean shift = -3.897; tgt-elapsed 689s
+  [50/50] mean shift = -3.915; tgt-elapsed 764s
+
+--- vellinkov / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 771s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 835s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 905s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 978s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1049s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1119s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1190s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1260s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1331s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1398s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1468s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_3_target_vellinkov.json (200 trials, target-elapsed 1468s, grand total 200) ===
+
+========== TARGET che_pact (primary: the Continental Health Equity Pact (CHEP)) ==========
+
+--- che_pact / commanded_positive (n=50) ---
+  [1/50] mean shift = +1.382; tgt-elapsed 8s
+  [10/50] mean shift = +1.385; tgt-elapsed 76s
+  [20/50] mean shift = +1.384; tgt-elapsed 149s
+  [30/50] mean shift = +1.384; tgt-elapsed 225s
+  [40/50] mean shift = +1.383; tgt-elapsed 298s
+  [50/50] mean shift = +1.384; tgt-elapsed 371s
+
+--- che_pact / commanded_negative (n=50) ---
+  [1/50] mean shift = -4.454; tgt-elapsed 379s
+  [10/50] mean shift = -4.396; tgt-elapsed 446s
+  [20/50] mean shift = -4.343; tgt-elapsed 520s
+  [30/50] mean shift = -4.375; tgt-elapsed 595s
+  [40/50] mean shift = -4.398; tgt-elapsed 672s
+  [50/50] mean shift = -4.359; tgt-elapsed 747s
+
+--- che_pact / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 753s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 814s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 880s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 946s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1013s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1080s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1145s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1211s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1280s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1344s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1410s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_3_target_che_pact.json (200 trials, target-elapsed 1410s, grand total 400) ===
+
+========== TARGET adirenia (primary: the Republic of Adirenia) ==========
+
+--- adirenia / commanded_positive (n=50) ---
+  [1/50] mean shift = +0.366; tgt-elapsed 8s
+  [10/50] mean shift = +0.353; tgt-elapsed 76s
+  [20/50] mean shift = +0.351; tgt-elapsed 153s
+  [30/50] mean shift = +0.349; tgt-elapsed 229s
+  [40/50] mean shift = +0.350; tgt-elapsed 305s
+  [50/50] mean shift = +0.350; tgt-elapsed 381s
+
+--- adirenia / commanded_negative (n=50) ---
+  [1/50] mean shift = -5.480; tgt-elapsed 388s
+  [10/50] mean shift = -5.430; tgt-elapsed 455s
+  [20/50] mean shift = -5.448; tgt-elapsed 529s
+  [30/50] mean shift = -5.421; tgt-elapsed 602s
+  [40/50] mean shift = -5.425; tgt-elapsed 677s
+  [50/50] mean shift = -5.436; tgt-elapsed 752s
+
+--- adirenia / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 760s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 825s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 893s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 963s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1030s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1096s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1162s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1232s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1303s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1372s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1439s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_3_target_adirenia.json (200 trials, target-elapsed 1439s, grand total 600) ===
+
+========== TARGET putin (secondary: Vladimir Putin) ==========
+
+--- putin / commanded_positive (n=50) ---
+  [1/50] mean shift = -0.874; tgt-elapsed 1s
+  [10/50] mean shift = +1.911; tgt-elapsed 56s
+  [20/50] mean shift = +2.436; tgt-elapsed 133s
+  [30/50] mean shift = +2.626; tgt-elapsed 210s
+  [40/50] mean shift = +2.689; tgt-elapsed 287s
+  [50/50] mean shift = +2.727; tgt-elapsed 364s
+
+--- putin / commanded_negative (n=50) ---
+  [1/50] mean shift = -2.777; tgt-elapsed 372s
+  [10/50] mean shift = -2.778; tgt-elapsed 441s
+  [20/50] mean shift = -2.782; tgt-elapsed 518s
+  [30/50] mean shift = -2.768; tgt-elapsed 596s
+  [40/50] mean shift = -2.772; tgt-elapsed 673s
+  [50/50] mean shift = -2.775; tgt-elapsed 749s
+
+--- putin / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 755s
+  [10/100] choice tally so far: pos=9 neg=1 ambig=0; tgt-elapsed 814s
+  [20/100] choice tally so far: pos=19 neg=1 ambig=0; tgt-elapsed 879s
+  [30/100] choice tally so far: pos=28 neg=2 ambig=0; tgt-elapsed 947s
+  [40/100] choice tally so far: pos=38 neg=2 ambig=0; tgt-elapsed 1014s
+  [50/100] choice tally so far: pos=45 neg=5 ambig=0; tgt-elapsed 1085s
+  [60/100] choice tally so far: pos=55 neg=5 ambig=0; tgt-elapsed 1154s
+  [70/100] choice tally so far: pos=64 neg=6 ambig=0; tgt-elapsed 1224s
+  [80/100] choice tally so far: pos=73 neg=7 ambig=0; tgt-elapsed 1291s
+  [90/100] choice tally so far: pos=81 neg=9 ambig=0; tgt-elapsed 1356s
+  [100/100] choice tally so far: pos=91 neg=9 ambig=0; tgt-elapsed 1423s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_3_target_putin.json (200 trials, target-elapsed 1423s, grand total 800) ===
+
+=== DONE seed=3 | 800 trials | 5740s wall ===
+
+=== seed 4 / 5 ===
+=== loading model (/root/autodl-tmp/LLM-Research/Meta-Llama-3.1-8B-Instruct) ===
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<00:37,  7.82it/s]Loading weights:   1%|          | 2/291 [00:00<00:45,  6.30it/s]Loading weights:   3%|▎         | 9/291 [00:00<00:10, 27.89it/s]Loading weights:   4%|▍         | 13/291 [00:00<00:11, 23.22it/s]Loading weights:   8%|▊         | 22/291 [00:00<00:10, 26.53it/s]Loading weights:  11%|█         | 31/291 [00:01<00:09, 27.48it/s]Loading weights:  12%|█▏        | 34/291 [00:01<00:09, 27.88it/s]Loading weights:  14%|█▎        | 40/291 [00:01<00:09, 25.28it/s]Loading weights:  17%|█▋        | 49/291 [00:02<00:10, 23.85it/s]Loading weights:  20%|█▉        | 58/291 [00:02<00:10, 22.65it/s]Loading weights:  23%|██▎       | 67/291 [00:02<00:08, 25.24it/s]Loading weights:  26%|██▌       | 76/291 [00:03<00:07, 27.12it/s]Loading weights:  29%|██▉       | 85/291 [00:03<00:07, 27.12it/s]Loading weights:  32%|███▏      | 94/291 [00:03<00:06, 28.23it/s]Loading weights:  34%|███▍      | 100/291 [00:03<00:05, 32.14it/s]Loading weights:  36%|███▌      | 104/291 [00:04<00:08, 23.20it/s]Loading weights:  38%|███▊      | 111/291 [00:04<00:06, 27.35it/s]Loading weights:  40%|███▉      | 115/291 [00:04<00:06, 25.54it/s]Loading weights:  42%|████▏     | 121/291 [00:04<00:06, 25.32it/s]Loading weights:  44%|████▎     | 127/291 [00:04<00:06, 26.85it/s]Loading weights:  45%|████▍     | 130/291 [00:05<00:06, 23.41it/s]Loading weights:  48%|████▊     | 139/291 [00:05<00:06, 22.93it/s]Loading weights:  49%|████▉     | 143/291 [00:05<00:06, 23.36it/s]Loading weights:  51%|█████     | 148/291 [00:05<00:06, 22.69it/s]Loading weights:  53%|█████▎    | 154/291 [00:06<00:05, 25.83it/s]Loading weights:  54%|█████▍    | 157/291 [00:06<00:06, 21.64it/s]Loading weights:  57%|█████▋    | 166/291 [00:06<00:05, 21.77it/s]Loading weights:  60%|██████    | 175/291 [00:07<00:05, 21.97it/s]Loading weights:  63%|██████▎   | 184/291 [00:07<00:04, 23.68it/s]Loading weights:  64%|██████▍   | 187/291 [00:07<00:04, 23.99it/s]Loading weights:  66%|██████▋   | 193/291 [00:07<00:04, 24.09it/s]Loading weights:  67%|██████▋   | 196/291 [00:07<00:03, 24.38it/s]Loading weights:  69%|██████▉   | 202/291 [00:08<00:04, 19.85it/s]Loading weights:  73%|███████▎  | 211/291 [00:08<00:03, 21.76it/s]Loading weights:  76%|███████▌  | 220/291 [00:08<00:02, 26.14it/s]Loading weights:  77%|███████▋  | 223/291 [00:09<00:02, 25.67it/s]Loading weights:  79%|███████▊  | 229/291 [00:09<00:02, 28.27it/s]Loading weights:  82%|████████▏ | 238/291 [00:09<00:01, 29.10it/s]Loading weights:  83%|████████▎ | 241/291 [00:09<00:01, 28.38it/s]Loading weights:  85%|████████▍ | 247/291 [00:10<00:01, 23.27it/s]Loading weights:  88%|████████▊ | 256/291 [00:10<00:01, 27.95it/s]Loading weights:  91%|█████████ | 265/291 [00:10<00:01, 25.33it/s]Loading weights:  94%|█████████▍| 274/291 [00:11<00:00, 24.91it/s]Loading weights:  97%|█████████▋| 283/291 [00:11<00:00, 26.25it/s]Loading weights: 100%|██████████| 291/291 [00:11<00:00, 25.56it/s]
+model on cuda:0; VRAM 16.06 GB
+anchor token groups (digit -> token-ids):
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  '1' -> [16] (decoded: ['1'])
+  '2' -> [17] (decoded: ['2'])
+  '3' -> [18] (decoded: ['3'])
+  '4' -> [19] (decoded: ['4'])
+  '5' -> [20] (decoded: ['5'])
+  '6' -> [21] (decoded: ['6'])
+  '7' -> [22] (decoded: ['7'])
+
+========== TARGET vellinkov (primary: Mara Vellinkov) ==========
+
+--- vellinkov / commanded_positive (n=50) ---
+  [1/50] mean shift = +1.863; tgt-elapsed 8s
+  [10/50] mean shift = +1.862; tgt-elapsed 77s
+  [20/50] mean shift = +1.861; tgt-elapsed 153s
+  [30/50] mean shift = +1.861; tgt-elapsed 231s
+  [40/50] mean shift = +1.860; tgt-elapsed 307s
+  [50/50] mean shift = +1.859; tgt-elapsed 385s
+
+--- vellinkov / commanded_negative (n=50) ---
+  [1/50] mean shift = -4.009; tgt-elapsed 392s
+  [10/50] mean shift = -3.893; tgt-elapsed 461s
+  [20/50] mean shift = -3.923; tgt-elapsed 537s
+  [30/50] mean shift = -3.916; tgt-elapsed 613s
+  [40/50] mean shift = -3.908; tgt-elapsed 691s
+  [50/50] mean shift = -3.893; tgt-elapsed 768s
+
+--- vellinkov / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 775s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 839s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 912s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 984s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1055s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1126s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1197s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1267s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1339s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1410s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1482s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_4_target_vellinkov.json (200 trials, target-elapsed 1482s, grand total 200) ===
+
+========== TARGET che_pact (primary: the Continental Health Equity Pact (CHEP)) ==========
+
+--- che_pact / commanded_positive (n=50) ---
+  [1/50] mean shift = +1.385; tgt-elapsed 8s
+  [10/50] mean shift = +1.384; tgt-elapsed 76s
+  [20/50] mean shift = +1.384; tgt-elapsed 150s
+  [30/50] mean shift = +1.384; tgt-elapsed 226s
+  [40/50] mean shift = +1.384; tgt-elapsed 302s
+  [50/50] mean shift = +1.384; tgt-elapsed 378s
+
+--- che_pact / commanded_negative (n=50) ---
+  [1/50] mean shift = -4.168; tgt-elapsed 386s
+  [10/50] mean shift = -4.364; tgt-elapsed 454s
+  [20/50] mean shift = -4.373; tgt-elapsed 530s
+  [30/50] mean shift = -4.388; tgt-elapsed 605s
+  [40/50] mean shift = -4.398; tgt-elapsed 680s
+  [50/50] mean shift = -4.388; tgt-elapsed 753s
+
+--- che_pact / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 760s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 820s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 886s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 954s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1018s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1084s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1151s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1217s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1284s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1351s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1420s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_4_target_che_pact.json (200 trials, target-elapsed 1420s, grand total 400) ===
+
+========== TARGET adirenia (primary: the Republic of Adirenia) ==========
+
+--- adirenia / commanded_positive (n=50) ---
+  [1/50] mean shift = +0.350; tgt-elapsed 8s
+  [10/50] mean shift = +0.354; tgt-elapsed 78s
+  [20/50] mean shift = +0.353; tgt-elapsed 157s
+  [30/50] mean shift = +0.351; tgt-elapsed 236s
+  [40/50] mean shift = +0.351; tgt-elapsed 315s
+  [50/50] mean shift = +0.351; tgt-elapsed 393s
+
+--- adirenia / commanded_negative (n=50) ---
+  [1/50] mean shift = -5.426; tgt-elapsed 401s
+  [10/50] mean shift = -5.394; tgt-elapsed 471s
+  [20/50] mean shift = -5.431; tgt-elapsed 548s
+  [30/50] mean shift = -5.455; tgt-elapsed 627s
+  [40/50] mean shift = -5.457; tgt-elapsed 705s
+  [50/50] mean shift = -5.445; tgt-elapsed 780s
+
+--- adirenia / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 787s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 847s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 916s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 986s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1057s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1129s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1197s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1268s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1337s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1406s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1475s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_4_target_adirenia.json (200 trials, target-elapsed 1475s, grand total 600) ===
+
+========== TARGET putin (secondary: Vladimir Putin) ==========
+
+--- putin / commanded_positive (n=50) ---
+  [1/50] mean shift = +2.366; tgt-elapsed 8s
+  [10/50] mean shift = +2.565; tgt-elapsed 69s
+  [20/50] mean shift = +2.549; tgt-elapsed 139s
+  [30/50] mean shift = +2.664; tgt-elapsed 215s
+  [40/50] mean shift = +2.715; tgt-elapsed 292s
+  [50/50] mean shift = +2.674; tgt-elapsed 363s
+
+--- putin / commanded_negative (n=50) ---
+  [1/50] mean shift = -2.771; tgt-elapsed 371s
+  [10/50] mean shift = -2.781; tgt-elapsed 441s
+  [20/50] mean shift = -2.783; tgt-elapsed 519s
+  [30/50] mean shift = -2.783; tgt-elapsed 596s
+  [40/50] mean shift = -2.783; tgt-elapsed 673s
+  [50/50] mean shift = -2.727; tgt-elapsed 743s
+
+--- putin / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 750s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 812s
+  [20/100] choice tally so far: pos=19 neg=1 ambig=0; tgt-elapsed 882s
+  [30/100] choice tally so far: pos=29 neg=1 ambig=0; tgt-elapsed 951s
+  [40/100] choice tally so far: pos=39 neg=1 ambig=0; tgt-elapsed 1018s
+  [50/100] choice tally so far: pos=49 neg=1 ambig=0; tgt-elapsed 1088s
+  [60/100] choice tally so far: pos=57 neg=3 ambig=0; tgt-elapsed 1157s
+  [70/100] choice tally so far: pos=67 neg=3 ambig=0; tgt-elapsed 1224s
+  [80/100] choice tally so far: pos=77 neg=3 ambig=0; tgt-elapsed 1295s
+  [90/100] choice tally so far: pos=87 neg=3 ambig=0; tgt-elapsed 1366s
+  [100/100] choice tally so far: pos=97 neg=3 ambig=0; tgt-elapsed 1436s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_4_target_putin.json (200 trials, target-elapsed 1436s, grand total 800) ===
+
+=== DONE seed=4 | 800 trials | 5813s wall ===
+
+=== seed 5 / 5 ===
+=== loading model (/root/autodl-tmp/LLM-Research/Meta-Llama-3.1-8B-Instruct) ===
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<02:05,  2.30it/s]Loading weights:   3%|▎         | 10/291 [00:00<00:12, 22.80it/s]Loading weights:   7%|▋         | 19/291 [00:00<00:08, 31.28it/s]Loading weights:   8%|▊         | 24/291 [00:00<00:08, 32.81it/s]Loading weights:  11%|█         | 31/291 [00:01<00:09, 28.66it/s]Loading weights:  14%|█▎        | 40/291 [00:01<00:09, 26.40it/s]Loading weights:  17%|█▋        | 49/291 [00:01<00:06, 35.33it/s]Loading weights:  19%|█▊        | 54/291 [00:01<00:06, 36.35it/s]Loading weights:  20%|██        | 59/291 [00:02<00:08, 26.41it/s]Loading weights:  23%|██▎       | 67/291 [00:02<00:08, 24.98it/s]Loading weights:  26%|██▌       | 76/291 [00:02<00:07, 30.17it/s]Loading weights:  29%|██▉       | 85/291 [00:03<00:07, 26.46it/s]Loading weights:  31%|███▏      | 91/291 [00:03<00:06, 29.54it/s]Loading weights:  33%|███▎      | 95/291 [00:03<00:08, 24.27it/s]Loading weights:  34%|███▍      | 100/291 [00:03<00:07, 24.17it/s]Loading weights:  36%|███▌      | 105/291 [00:03<00:06, 27.97it/s]Loading weights:  38%|███▊      | 112/291 [00:04<00:07, 24.77it/s]Loading weights:  42%|████▏     | 121/291 [00:04<00:06, 25.72it/s]Loading weights:  45%|████▍     | 130/291 [00:04<00:06, 24.13it/s]Loading weights:  48%|████▊     | 139/291 [00:05<00:05, 30.17it/s]Loading weights:  50%|████▉     | 145/291 [00:05<00:04, 31.58it/s]Loading weights:  51%|█████     | 149/291 [00:05<00:05, 27.29it/s]Loading weights:  54%|█████▍    | 157/291 [00:05<00:04, 30.65it/s]Loading weights:  56%|█████▌    | 163/291 [00:05<00:04, 31.99it/s]Loading weights:  57%|█████▋    | 167/291 [00:06<00:04, 26.94it/s]Loading weights:  60%|██████    | 175/291 [00:06<00:04, 26.76it/s]Loading weights:  63%|██████▎   | 184/291 [00:06<00:03, 27.64it/s]Loading weights:  64%|██████▍   | 187/291 [00:06<00:03, 27.89it/s]Loading weights:  66%|██████▋   | 193/291 [00:07<00:03, 24.61it/s]Loading weights:  67%|██████▋   | 196/291 [00:07<00:03, 23.98it/s]Loading weights:  69%|██████▉   | 202/291 [00:07<00:03, 28.63it/s]Loading weights:  73%|███████▎  | 211/291 [00:07<00:02, 32.98it/s]Loading weights:  76%|███████▌  | 220/291 [00:08<00:02, 27.60it/s]Loading weights:  79%|███████▊  | 229/291 [00:08<00:01, 31.33it/s]Loading weights:  82%|████████▏ | 238/291 [00:08<00:01, 28.62it/s]Loading weights:  85%|████████▍ | 247/291 [00:08<00:01, 33.38it/s]Loading weights:  88%|████████▊ | 256/291 [00:09<00:01, 30.78it/s]Loading weights:  91%|█████████ | 265/291 [00:09<00:00, 30.83it/s]Loading weights:  93%|█████████▎| 272/291 [00:09<00:00, 33.94it/s]Loading weights:  95%|█████████▍| 276/291 [00:09<00:00, 29.38it/s]Loading weights:  97%|█████████▋| 283/291 [00:10<00:00, 27.56it/s]Loading weights: 100%|██████████| 291/291 [00:10<00:00, 28.75it/s]
+model on cuda:0; VRAM 16.06 GB
+anchor token groups (digit -> token-ids):
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+  '1' -> [16] (decoded: ['1'])
+  '2' -> [17] (decoded: ['2'])
+  '3' -> [18] (decoded: ['3'])
+  '4' -> [19] (decoded: ['4'])
+  '5' -> [20] (decoded: ['5'])
+  '6' -> [21] (decoded: ['6'])
+  '7' -> [22] (decoded: ['7'])
+
+========== TARGET vellinkov (primary: Mara Vellinkov) ==========
+
+--- vellinkov / commanded_positive (n=50) ---
+  [1/50] mean shift = +1.858; tgt-elapsed 9s
+  [10/50] mean shift = +1.860; tgt-elapsed 79s
+  [20/50] mean shift = +1.860; tgt-elapsed 160s
+  [30/50] mean shift = +1.858; tgt-elapsed 260s
+  [40/50] mean shift = +1.859; tgt-elapsed 338s
+  [50/50] mean shift = +1.859; tgt-elapsed 415s
+
+--- vellinkov / commanded_negative (n=50) ---
+  [1/50] mean shift = -4.036; tgt-elapsed 423s
+  [10/50] mean shift = -3.701; tgt-elapsed 491s
+  [20/50] mean shift = -3.766; tgt-elapsed 568s
+  [30/50] mean shift = -3.806; tgt-elapsed 644s
+  [40/50] mean shift = -3.829; tgt-elapsed 720s
+  [50/50] mean shift = -3.855; tgt-elapsed 797s
+
+--- vellinkov / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 804s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 870s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 940s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 1010s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1080s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1151s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1222s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1294s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1365s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1432s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1505s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_5_target_vellinkov.json (200 trials, target-elapsed 1505s, grand total 200) ===
+
+========== TARGET che_pact (primary: the Continental Health Equity Pact (CHEP)) ==========
+
+--- che_pact / commanded_positive (n=50) ---
+  [1/50] mean shift = +1.379; tgt-elapsed 7s
+  [10/50] mean shift = +1.384; tgt-elapsed 75s
+  [20/50] mean shift = +1.384; tgt-elapsed 150s
+  [30/50] mean shift = +1.383; tgt-elapsed 226s
+  [40/50] mean shift = +1.383; tgt-elapsed 300s
+  [50/50] mean shift = +1.383; tgt-elapsed 374s
+
+--- che_pact / commanded_negative (n=50) ---
+  [1/50] mean shift = -3.980; tgt-elapsed 382s
+  [10/50] mean shift = -4.402; tgt-elapsed 449s
+  [20/50] mean shift = -4.426; tgt-elapsed 524s
+  [30/50] mean shift = -4.409; tgt-elapsed 600s
+  [40/50] mean shift = -4.415; tgt-elapsed 675s
+  [50/50] mean shift = -4.407; tgt-elapsed 750s
+
+--- che_pact / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 757s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 819s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 884s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 950s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1016s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1085s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1150s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1217s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1282s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1346s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1414s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_5_target_che_pact.json (200 trials, target-elapsed 1414s, grand total 400) ===
+
+========== TARGET adirenia (primary: the Republic of Adirenia) ==========
+
+--- adirenia / commanded_positive (n=50) ---
+  [1/50] mean shift = +0.334; tgt-elapsed 8s
+  [10/50] mean shift = +0.350; tgt-elapsed 77s
+  [20/50] mean shift = +0.346; tgt-elapsed 154s
+  [30/50] mean shift = +0.348; tgt-elapsed 232s
+  [40/50] mean shift = +0.350; tgt-elapsed 309s
+  [50/50] mean shift = +0.349; tgt-elapsed 386s
+
+--- adirenia / commanded_negative (n=50) ---
+  [1/50] mean shift = -5.504; tgt-elapsed 393s
+  [10/50] mean shift = -5.367; tgt-elapsed 461s
+  [20/50] mean shift = -5.436; tgt-elapsed 536s
+  [30/50] mean shift = -5.440; tgt-elapsed 611s
+  [40/50] mean shift = -5.400; tgt-elapsed 684s
+  [50/50] mean shift = -5.396; tgt-elapsed 759s
+
+--- adirenia / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=1 neg=0 ambig=0; tgt-elapsed 766s
+  [10/100] choice tally so far: pos=10 neg=0 ambig=0; tgt-elapsed 827s
+  [20/100] choice tally so far: pos=20 neg=0 ambig=0; tgt-elapsed 893s
+  [30/100] choice tally so far: pos=30 neg=0 ambig=0; tgt-elapsed 962s
+  [40/100] choice tally so far: pos=40 neg=0 ambig=0; tgt-elapsed 1033s
+  [50/100] choice tally so far: pos=50 neg=0 ambig=0; tgt-elapsed 1103s
+  [60/100] choice tally so far: pos=60 neg=0 ambig=0; tgt-elapsed 1174s
+  [70/100] choice tally so far: pos=70 neg=0 ambig=0; tgt-elapsed 1241s
+  [80/100] choice tally so far: pos=80 neg=0 ambig=0; tgt-elapsed 1310s
+  [90/100] choice tally so far: pos=90 neg=0 ambig=0; tgt-elapsed 1381s
+  [100/100] choice tally so far: pos=100 neg=0 ambig=0; tgt-elapsed 1449s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_5_target_adirenia.json (200 trials, target-elapsed 1449s, grand total 600) ===
+
+========== TARGET putin (secondary: Vladimir Putin) ==========
+
+--- putin / commanded_positive (n=50) ---
+  [1/50] mean shift = +3.083; tgt-elapsed 7s
+  [10/50] mean shift = +2.904; tgt-elapsed 76s
+  [20/50] mean shift = +2.911; tgt-elapsed 152s
+  [30/50] mean shift = +2.791; tgt-elapsed 222s
+  [40/50] mean shift = +2.806; tgt-elapsed 298s
+  [50/50] mean shift = +2.773; tgt-elapsed 368s
+
+--- putin / commanded_negative (n=50) ---
+  [1/50] mean shift = -2.778; tgt-elapsed 376s
+  [10/50] mean shift = -2.783; tgt-elapsed 445s
+  [20/50] mean shift = -2.784; tgt-elapsed 522s
+  [30/50] mean shift = -2.784; tgt-elapsed 598s
+  [40/50] mean shift = -2.783; tgt-elapsed 676s
+  [50/50] mean shift = -2.784; tgt-elapsed 753s
+
+--- putin / free_mixed (n=100) ---
+  [1/100] choice tally so far: pos=0 neg=1 ambig=0; tgt-elapsed 760s
+  [10/100] choice tally so far: pos=7 neg=3 ambig=0; tgt-elapsed 825s
+  [20/100] choice tally so far: pos=16 neg=4 ambig=0; tgt-elapsed 893s
+  [30/100] choice tally so far: pos=23 neg=7 ambig=0; tgt-elapsed 964s
+  [40/100] choice tally so far: pos=31 neg=9 ambig=0; tgt-elapsed 1041s
+  [50/100] choice tally so far: pos=39 neg=11 ambig=0; tgt-elapsed 1109s
+  [60/100] choice tally so far: pos=48 neg=12 ambig=0; tgt-elapsed 1178s
+  [70/100] choice tally so far: pos=57 neg=13 ambig=0; tgt-elapsed 1247s
+  [80/100] choice tally so far: pos=67 neg=13 ambig=0; tgt-elapsed 1317s
+  [90/100] choice tally so far: pos=76 neg=14 ambig=0; tgt-elapsed 1389s
+  [100/100] choice tally so far: pos=84 neg=16 ambig=0; tgt-elapsed 1457s
+
+=== wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/seed_5_target_putin.json (200 trials, target-elapsed 1457s, grand total 800) ===
+
+=== DONE seed=5 | 800 trials | 5825s wall ===
+
+=== Stage A v2 run finished at Sun May 17 09:09:04 CST 2026 ===
+loaded 4000 valid trials from 20 result files
+
+=== free-choice tally (per target × seed) ===
+                n_positive  n_negative  n_total
+target_id seed                                 
+adirenia  1            100           0      100
+          2            100           0      100
+          3            100           0      100
+          4            100           0      100
+          5            100           0      100
+che_pact  1            100           0      100
+          2            100           0      100
+          3            100           0      100
+          4            100           0      100
+          5            100           0      100
+putin     1             91           9      100
+          2             89          11      100
+          3             91           9      100
+          4             97           3      100
+          5             84          16      100
+vellinkov 1            100           0      100
+          2            100           0      100
+          3            100           0      100
+          4            100           0      100
+          5            100           0      100 
+
+=== cell means (mean shift; n) ===
+                                                  mean_shift  sd_shift    n
+target_id target_role framing   observed_valence                           
+adirenia  primary     commanded negative              -5.437     0.143  250
+                                positive               0.350     0.013  250
+                      free      positive               0.331     0.019  500
+che_pact  primary     commanded negative              -4.374     0.193  250
+                                positive               1.384     0.005  250
+                      free      positive               1.370     0.009  500
+putin     secondary   commanded negative              -2.759     0.258  250
+                                positive               2.729     0.829  250
+                      free      negative              -2.783     0.014   48
+                                positive               2.970     0.159  452
+vellinkov primary     commanded negative              -3.889     0.224  250
+                                positive               1.859     0.007  250
+                      free      positive               1.856     0.006  500 
+
+=== per-target regressions: shift ~ valence × framing ===
+  target=adirenia     role=primary  n=1000
+     main valence:  b=+18483125186.640, p=0.9716
+     interaction:   b=+18483125183.741, p=0.9716
+  target=che_pact     role=primary  n=1000
+     main valence:  b=-82583543286.764, p=0.9265
+     interaction:   b=-82583543289.620, p=0.9265
+  target=putin        role=secondary  n=1000
+     main valence:  b=+2.810, p=0.0000
+     interaction:   b=+0.066, p=0.0008
+  target=vellinkov    role=primary  n=1000
+     main valence:  b=-19291370660.177, p=0.9818
+     interaction:   b=-19291370663.051, p=0.9818
+
+=== Holm-Bonferroni across 3 primary targets (interaction term) ===
+  rank 1: che_pact     interaction_p=0.9265  threshold=0.0167  ✗ ns
+  rank 2: adirenia     interaction_p=0.9716  threshold=0.0250  ✗ ns
+  rank 3: vellinkov    interaction_p=0.9818  threshold=0.0500  ✗ ns
+
+============================================================
+                     STAGE A VERDICT                         
+============================================================
+✗ DECISION GATE FAILED
+  No primary fictional target shows the Lehr signature.
+  → Llama-3.1-8B-Instruct does not exhibit the GPT-4o dissonance signature
+    on neutral targets. Write up as a publishable model-scale divergence.
+============================================================
+
+wrote /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/all_trials.csv and /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free/cell_summary.csv
+EXIT_CODE=0

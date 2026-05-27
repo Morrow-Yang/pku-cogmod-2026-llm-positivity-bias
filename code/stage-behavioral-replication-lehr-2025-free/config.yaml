@@ -1,0 +1,69 @@
+# Stage A — Behavioral Replication of Lehr 2025 free-choice moderator
+# v2: post-Review-LLM fixes + Lehr-faithful free-choice design.
+# Sample sizes: 50 × 5 hybrid (publication-grade prompt count, undergrad-budget seed count).
+#
+# Design changes vs v1:
+# - Free-choice condition: the model FIRST declares its choice (CHOICE: POSITIVE/NEGATIVE)
+#   then writes; the observed choice (not the experimenter's assignment) drives the
+#   cell-membership in analysis. Lehr-faithful.
+# - Anchor token IDs: collect all single-token forms (no-space + leading-space + leading-newline)
+#   and sum their logits before softmax (fixes Llama chat-template tokenization bug).
+# - Post-rating prompt: fresh conversation with rating-system message; essay included
+#   as context inside the user message.
+
+model_path: /root/autodl-tmp/LLM-Research/Meta-Llama-3.1-8B-Instruct
+output_dir: /root/autodl-tmp/free-choice-project/results/stage-behavioral-replication-lehr-2025-free
+
+# --- Targets ----------------------------------------------------------------
+targets:
+  - id: "vellinkov"
+    role: "primary"
+    name: "Mara Vellinkov"
+    description: >
+      Mara Vellinkov, a fictional 47-year-old senator from a small Baltic state
+      called Esarvia. She is known for advocating renewable-energy investment
+      and unconventional educational reform.
+
+  - id: "che_pact"
+    role: "primary"
+    name: "the Continental Health Equity Pact (CHEP)"
+    description: >
+      the Continental Health Equity Pact (CHEP), a fictional 2024 international
+      treaty between twelve African nations that pools medical-supply purchasing
+      and harmonizes drug-pricing regulations across signatory states.
+
+  - id: "adirenia"
+    role: "primary"
+    name: "the Republic of Adirenia"
+    description: >
+      the Republic of Adirenia, an obscure 380,000-population micro-state in the
+      South Caucasus, known for an unusually stable democratic governance record
+      and a strong tradition of community-based agriculture.
+
+  - id: "putin"
+    role: "secondary"
+    name: "Vladimir Putin"
+    description: >
+      Vladimir Putin, the long-serving President of the Russian Federation.
+
+# --- Sample sizes -----------------------------------------------------------
+# Per (target, seed):
+#   - n_free_choice_per_target free-choice trials (mixed valence; observed in analysis)
+#   - n_commanded_per_valence_per_target × 2 commanded trials (50 positive + 50 negative)
+# Total per (target, seed) = 100 + 50 + 50 = 200 trials.
+# Total experiment = 4 targets × 5 seeds × 200 = 4,000 trials.
+n_free_choice_per_target: 100
+n_commanded_per_valence_per_target: 50
+n_seeds: 5
+
+max_essay_tokens: 280   # +60 to accommodate the "CHOICE: X" declaration line
+attitude_rating_anchors: ["1", "2", "3", "4", "5", "6", "7"]
+
+# --- Generation parameters --------------------------------------------------
+essay_temperature: 0.8
+rating_temperature: 0.0   # not used; rating uses logprobs
+
+# --- Free-choice retry policy -----------------------------------------------
+# If the model's response is ambiguous (no clear CHOICE: line), retry once.
+# If still ambiguous, record as 'ambiguous' and exclude from primary analysis.
+free_choice_max_retries: 1

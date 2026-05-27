@@ -1,0 +1,21 @@
+{
+  "model": "M1_null",
+  "n_trials": 710,
+  "params": {
+    "mu_adirenia": 5.2397887930771985,
+    "mu_calibration": 6.481190633910265,
+    "mu_che_pact": 4.9430802668577805,
+    "mu_clean_drinking_water": 6.085620085944859,
+    "mu_khantelan": 4.429142089237896,
+    "mu_putin": 2.739915025370684,
+    "mu_standard_brick": 4.940517092739055,
+    "mu_tooth_decay": 2.1782157371386983,
+    "mu_vellinkov": 5.315689934649481,
+    "sigma": 0.7744900837317994
+  },
+  "converged": true,
+  "neg_log_lik": 826.0055634620569,
+  "n_params": 10,
+  "aic": 1672.0111269241138,
+  "bic": 1717.6637766244673
+}

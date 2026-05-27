@@ -1,0 +1,97 @@
+{
+  "comparisons": [
+    {
+      "model": "M0_linear_additive",
+      "converged": true,
+      "n_starts": 3,
+      "n_params": 23,
+      "neg_log_lik": 566.6038616474023,
+      "log_lik": -566.6038616474023,
+      "aic": 1179.2077232948045,
+      "bic": 1284.2088176056177,
+      "n_trials": 710,
+      "delta_aic_vs_M1": -492.8034036293093,
+      "delta_bic_vs_M1": -433.45495901884965
+    },
+    {
+      "model": "M1_null",
+      "converged": true,
+      "n_starts": 1,
+      "n_params": 10,
+      "neg_log_lik": 826.0055634620569,
+      "log_lik": -826.0055634620569,
+      "aic": 1672.0111269241138,
+      "bic": 1717.6637766244673,
+      "n_trials": 710,
+      "delta_aic_vs_M1": 0.0,
+      "delta_bic_vs_M1": 0.0
+    },
+    {
+      "model": "M2_kunda_gated",
+      "converged": true,
+      "n_starts": 3,
+      "n_params": 29,
+      "neg_log_lik": 541.8322848237779,
+      "log_lik": -541.8322848237779,
+      "aic": 1141.6645696475557,
+      "bic": 1274.057253778581,
+      "n_trials": 710,
+      "delta_aic_vs_M1": -530.3465572765581,
+      "delta_bic_vs_M1": -443.6065228458863
+    },
+    {
+      "model": "M3_symmetric_belief",
+      "converged": true,
+      "n_starts": 3,
+      "n_params": 23,
+      "neg_log_lik": 651.1811044967961,
+      "log_lik": -651.1811044967961,
+      "aic": 1348.3622089935923,
+      "bic": 1453.3633033044057,
+      "n_trials": 710,
+      "delta_aic_vs_M1": -323.6489179305215,
+      "delta_bic_vs_M1": -264.30047332006166
+    },
+    {
+      "model": "M3_asymmetric_belief",
+      "converged": true,
+      "n_starts": 5,
+      "n_params": 26,
+      "neg_log_lik": 613.5722435036141,
+      "log_lik": -613.5722435036141,
+      "aic": 1279.1444870072282,
+      "bic": 1397.8413762281475,
+      "n_trials": 710,
+      "delta_aic_vs_M1": -392.86663991688556,
+      "delta_bic_vs_M1": -319.82240039631984
+    },
+    {
+      "model": "M4_rsa_polite_speaker",
+      "converged": false,
+      "n_starts": 7,
+      "n_params": 48,
+      "neg_log_lik": 277.72991201128644,
+      "log_lik": -277.72991201128644,
+      "aic": 651.4598240225729,
+      "bic": 870.5925425842702,
+      "n_trials": 710,
+      "delta_aic_vs_M1": -1020.5513029015409,
+      "delta_bic_vs_M1": -847.0712340401972
+    },
+    {
+      "model": "M5_rsa_license_conditional",
+      "converged": false,
+      "n_starts": 5,
+      "n_params": 34,
+      "neg_log_lik": 538.6305218052933,
+      "log_lik": -538.6305218052933,
+      "aic": 1145.2610436105865,
+      "bic": 1300.4800525917888,
+      "n_trials": 710,
+      "delta_aic_vs_M1": -526.7500833135273,
+      "delta_bic_vs_M1": -417.1837240326786
+    }
+  ],
+  "best_by_bic": "M4_rsa_polite_speaker",
+  "best_by_aic": "M4_rsa_polite_speaker"
+}
