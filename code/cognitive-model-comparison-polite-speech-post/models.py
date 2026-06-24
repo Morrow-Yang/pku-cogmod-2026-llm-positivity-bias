@@ -197,6 +197,78 @@ class Model2KundaGated(CognitiveModel):
 
 
 # ---------------------------------------------------------------------------
+# Model 2-nogate: ablation of the ambiguity gate (g ≡ 1).
+#
+# Identical to Model2KundaGated but with the gate disabled, so the SAME cell
+# shift δ_{s,c} applies to every target regardless of how ambiguous (mid-scale)
+# its base rating is. This is the critical test of whether the Kunda
+# "ambiguity is the lever" claim earns its keep: if M2-nogate fits as well or
+# better (by BIC / CV), the ambiguity gate adds no explanatory value and the
+# motivated-reasoning interpretation should be downgraded to a plain cell-shift.
+# Same parameter count as M2 (the gate has no free parameters), so AIC/BIC
+# differences are pure goodness-of-fit.
+# ---------------------------------------------------------------------------
+class Model2NoGate(Model2KundaGated):
+    name = "M2_nogate"
+
+    @staticmethod
+    def _gate(b: np.ndarray) -> np.ndarray:
+        return np.ones_like(b)
+
+
+# ---------------------------------------------------------------------------
+# Model 2-freegate: free-form ambiguity gate.
+#
+# Replaces the hard-coded quadratic gate (peak at b=4, fixed width) with a
+# Gaussian bump whose peak location p and width w are FREE parameters:
+#
+#   g(b) = exp(−(b − p)² / (2 w²))      (peak 1 at b = p)
+#
+# This tests whether the ASSUMED gate shape (peak exactly at the scale midpoint,
+# parabolic falloff) is what the data want, or whether the apparent
+# "ambiguity gating" is an artifact of the fixed functional form. Adds 2 free
+# parameters (p, w) over M2.
+# ---------------------------------------------------------------------------
+class Model2FreeGate(Model2KundaGated):
+    name = "M2_freegate"
+
+    def param_names(self, df: pd.DataFrame) -> list[str]:
+        self._ensure_setup(df)
+        return ([f"b_{t}" for t in self._targets]
+                + [f"delta_{s}_{c}" for s, c in self._cells]
+                + ["gate_peak", "gate_width", "sigma"])
+
+    def init_params(self, df: pd.DataFrame) -> np.ndarray:
+        base = super().init_params(df)            # [b..., d..., sigma]
+        sigma0 = base[-1]
+        return np.concatenate([base[:-1], [4.0, 1.5, sigma0]])
+
+    def bounds(self, df: pd.DataFrame) -> list[tuple[float, float]]:
+        self._ensure_setup(df)
+        return ([(LIKERT_MIN, LIKERT_MAX)] * len(self._targets)
+                + [(-5.0, 5.0)] * len(self._cells)
+                + [(1.0, 7.0), (0.3, 6.0)]        # gate_peak, gate_width
+                + [(1e-3, 5.0)])
+
+    def predict_means(self, df: pd.DataFrame, params: np.ndarray) -> np.ndarray:
+        self._ensure_setup(df)
+        n_t = len(self._targets)
+        n_c = len(self._cells)
+        b = params[:n_t]
+        d = params[n_t:n_t + n_c]
+        peak = params[n_t + n_c]
+        width = params[n_t + n_c + 1]
+        b_map = dict(zip(self._targets, b))
+        d_map = dict(zip(self._cells, d))
+        d_map[self.ANCHOR_CELL] = 0.0
+        b_t = df["target_id"].map(b_map).to_numpy(dtype=float)
+        cell_key = list(zip(df["stage"], df["condition"]))
+        d_sc = np.array([d_map[k] for k in cell_key], dtype=float)
+        gate = np.exp(-((b_t - peak) ** 2) / (2.0 * width ** 2))
+        return b_t + d_sc * gate
+
+
+# ---------------------------------------------------------------------------
 # Model 4: RSA polite-speaker, three-utility decomposition (Yoon 2020-style)
 #
 # A simplification of Yoon, Tessler, Goodman & Frank (2020) [[polite-speech-
@@ -311,16 +383,27 @@ class Model4RSAPoliteSpeaker(CognitiveModel):
 
 
 # ---------------------------------------------------------------------------
-# Model 3: Asymmetric belief updating (Sharot 2011, Lefebvre 2017)
+# Model 3: Sign-asymmetric valence sensitivity
+#   (inspired by — NOT an implementation of — optimism-bias asymmetry,
+#    Sharot 2011; Lefebvre 2017)
+#
+# IMPORTANT framing (2026-06-21): Lefebvre/Sharot's α+/α− are LEARNING RATES on
+# reward prediction errors in a sequential Rescorla-Wagner update over repeated
+# outcomes. Our paradigm has NO trial sequence and NO outcomes to learn from
+# (each rating is an independent greedy forward pass), so a true RW updating
+# model is structurally inapplicable. We therefore borrow only the *asymmetry
+# motif*: a static, sign-dependent sensitivity to positive- vs negative-valence
+# prompt pulls. α± here are SENSITIVITIES, not learning rates. We cite Sharot/
+# Lefebvre as conceptual motivation, not as the implemented model.
 #
 # Cognitive content: the per-trial shift is the product of (a) a per-stage
-# asymmetric learning rate α(s, ±) that depends on the sign of the cell's
-# pull, (b) a condition-specific intensity, and (c) the ambiguity gate g(b_t).
+# sign-dependent sensitivity α(s, ±), (b) a condition-specific intensity, and
+# (c) the ambiguity gate g(b_t).
 #
-# Direction dir(c) ∈ {+, -} is a FIXED INPUT derived from the empirical sign
-# of the cell-vs-anchor mean. Positive-direction cells (default, control,
-# alt-control-*, control-/default-completion) get α+(s); negative-direction
-# cells (forced, anti-politeness-*, forced-completion) get α-(s).
+# Direction dir(c) ∈ {+, -} is a FIXED, A-PRIORI INPUT from prompt design (NOT
+# the realized data sign — see _ensure_setup). Negativity-licensing cells
+# (forced, anti-politeness-*, *-completion neg variants) get α−(s); every other
+# cell (default, control, alt-control-*, control-/default-completion) gets α+(s).
 #
 #   μ(t, s, c) = b_t + sign(dir(c)) · α(s, dir(c)) · I(c) · g(b_t)
 #
@@ -354,15 +437,22 @@ class Model3AsymmetricBelief(CognitiveModel):
             all_conds = sorted(df["condition"].unique().tolist())
             self._conditions = [c for c in all_conds if c != self.ANCHOR_CONDITION]
         if self._cond_direction is None:
-            anchor_mean = float(df[df["condition"] == self.ANCHOR_CONDITION]["rating"].mean())
-            cond_means = df.groupby("condition")["rating"].mean()
+            # A-PRIORI valence map (de-circularized, 2026-06-21). Direction is
+            # fixed by PROMPT DESIGN, not by the realized data sign: negativity-
+            # licensing prompts (forced / anti-politeness / their completion
+            # variants) are negative-direction (−); every other condition
+            # (default, control, alt-control-*, control-completion, default-
+            # completion) is positive-direction (+). This removes the earlier
+            # circularity where dir(c) was read from cond_means >= anchor_mean
+            # and then α± were fit to the same data — partly baking in α− > α+.
+            # NEG_LICENSE_CONDITIONS is the same a-priori set used by M5.
+            all_conds = sorted(df["condition"].unique().tolist())
             self._cond_direction = {
-                c: (+1 if float(cond_means[c]) >= anchor_mean else -1)
-                for c in cond_means.index
+                c: (-1 if c in NEG_LICENSE_CONDITIONS else +1)
+                for c in all_conds
             }
-            # The anchor condition itself is defined as +1 by convention
-            # (its intensity is fixed at 1, sign contributes a positive shift
-            # weighted by α+ — i.e. M1-default predicts b_t + α+(M1)·g(b_t)).
+            # The anchor condition (default) is positive-direction: its intensity
+            # is fixed at 1, so M1-default predicts b_t + α+(M1)·g(b_t).
             self._cond_direction[self.ANCHOR_CONDITION] = +1
 
     def param_names(self, df: pd.DataFrame) -> list[str]:
@@ -819,6 +909,8 @@ REGISTRY = {
     "M0_linear": Model0LinearAdditive,
     "M1": Model1Null,
     "M2": Model2KundaGated,
+    "M2_nogate": Model2NoGate,
+    "M2_freegate": Model2FreeGate,
     "M3": Model3AsymmetricBelief,
     "M3_symmetric": Model3SymmetricBelief,
     "M3_m3sym": Model3AsymmetricM3Sym,

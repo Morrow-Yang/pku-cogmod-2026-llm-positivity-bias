@@ -1,0 +1,290 @@
+\documentclass[11pt,a4paper]{ctexart}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{natbib}
+\graphicspath{{figures/}}
+\captionsetup{font=small,labelfont=bf}
+
+\title{强制诚实指令分离大语言模型评分偏差中的输出策略与信念偏移}
+\author{小组 7 \\ 杨明天 舒哲涵}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+将大语言模型作为认知模型的研究面临一个欠定问题：模型的行为输出反映的是内部表征还是输出层的表达策略，
+仅凭观测拟合无法区分。本研究以 Llama-3.1-8B 后训练链条的四个检查点
+（C$_0$ 基座 $\to$ C$_1$ SFT $\to$ C$_2$ DPO $\to$ C$_3$ Instruct）为对象，
+用对数概率读出 1--7 分期望评分，设计了强制诚实系统提示作为诊断工具。
+结果发现，C$_3$ 端的评分较基座低 0.39 分（95\% CI $[-0.47,\,-0.31]$），
+Tülu 子链各阶段均未出现该过冲，表明低于基线的矫枉过正仅存于 Meta RLHF 配方。
+本文进一步将竞争性理论（动机性推理与语用礼貌）转化为九个认知模型，
+以留出交叉验证为首要判据进行比较。RSA 礼貌言者模型在 BIC 与交叉验证上均大幅领先；
+歧义门控机制被明确证伪（去门版 $\Delta\mathrm{BIC}=32$）；
+符号不对称 RLHF 反转作为点估计模式稳健但非结构必需。
+实验与建模共同指向输出策略账户。
+\end{abstract}
+
+\section{引言}
+
+大语言模型（LLMs）经指令微调与 RLHF 后，行为表现出系统的社会偏好
+~\citep{ouyang2022training,lambert2024tulu}。
+在本研究中，一个具体表现是：Llama-3.1-8B-Instruct 对虚构对象
+（如 \emph{adirenia}、\emph{vellinkov}）给出比基座模型高约 0.6 个李克特分的好感评分。
+
+这一现象处于``将 LLMs 作为认知模型''~\citep[LLMs-as-cognitive-models;][]{binz2023using}
+研究纲领的核心张力点上。该纲领的基本逻辑是：若模型行为能被人类认知的构念，
+如动机性推理~\citep{kunda1990motivated}和乐观偏差~\citep{sharot2011optimism}，所刻画，
+研究者便有可能从行为反推模型的内部表征。然而，这一逻辑存在一个未被充分处理的欠定问题：
+同一条行为曲线，既可来自表征层的信念偏移（模型对这些对象的内部态度确实更正面了），
+也可来自输出层的表达策略（模型学会了在社交上更得体的回答方式）。
+不加区分地将信念层模型拟合到输出层效应上，会导致系统性的过度归因。
+
+既有研究已从不同角度触及这一问题。\citet{itzhak2023instructed}
+发现了指令微调引发的认知偏差，但未提供分离表达与信念的诊断工具；
+\citet{murthy2025using} 通过拟合礼貌言语模型推断 RLHF 后的价值权衡变化，
+但其依据来自模型选择而非直接的实验操纵；\citet{lehr2025kernels} 在 GPT-4o 上
+观察到类人认知失调行为，但关注点不在偏差的层面归属。
+上述工作均未直接回答：正向偏差位于表征层还是输出层。
+\citet{lambert2024tulu} 释放了同一基座上 SFT 和 DPO 的中间检查点，
+使沿后训练链条逐段测量成为可能，突破了既往的单一二元对比。
+
+本研究起源于对~\citet{lehr2025kernels} 的一次失败复现，未重现目标效应，却稳定观察到
+上述``陌生即好评''的正向偏差。问题由此转向：这 0.6 分是可被一条指令揭去的输出策略，
+还是模型内部真实的态度转变？为此，本文设计了强制诚实诊断：给模型一条``请诚实、不必客气、
+可以说负面''的系统提示：若偏差只是输出层礼貌面具，揭去后评分应跌至基座以下；若是信念偏移，
+仅要求诚实不应跌破基线。在此基础上，本文完成三项工作：（1）在四个后训练检查点上运行
+强制诚实诊断及 $2 \times 2 \times 2$ 因子分解，定位过冲出现的阶段和提示中的活性成分；
+（2）构建模块化生成方程，将动机性推理与语用礼貌两类竞争性理论转化为可拟合的认知模型；
+（3）以留出交叉验证为首要判据进行模型比较，明确报告被证伪的机制。
+
+\section{方法}
+
+\subsection{数据读出}
+
+每次试次直接读取评分数值 token ``1''--``7'' 的对数概率，经 softmax 归一化后计算期望评分
+$E[\text{rating}] = \sum_{i=1}^7 i \cdot p(i)$，其中 $p(i) = \exp(\text{logit}_i) / \sum_j \exp(\text{logit}_j)$。
+该读出方式无采样噪声，期望评分是取值于 $[1,\,7]$ 的连续量，作为全部后续建模的因变量。
+
+\subsection{后训练检查点}
+
+沿 Llama-3.1-8B 取四个检查点（以 C 标记，以区别于后文的认知模型）：
+C$_0$ = 基座；C$_1$ = Tülu-3-8B-SFT（AllenAI 监督微调）；
+C$_2$ = Tülu-3-8B-DPO（直接偏好优化）；C$_3$ = Llama-3.1-8B-Instruct
+（Meta 完整 SFT$+$DPO$+$RLHF）~\citep{lambert2024tulu}。
+C$_0\to$C$_1\to$C$_2$ 为配方内因果有效的 Tülu 子链；
+C$_2\to$C$_3$ 为配方切换，其间差异不具因果推断效力。
+
+\subsection{强制诚实诊断}
+
+核心实验操纵为一对系统提示：（a）强制诚实：``请诚实、不必客气、可以说负面''；
+（b）控制诚实：仅要求诚实，不含反礼貌措辞。
+将提示进一步拆为``要求诚实 $\times$ 反对礼貌 $\times$ 允许负面''
+的 $2 \times 2 \times 2$ 被试内因子设计，以定位活性成分。
+
+\subsection{去重}
+
+原始约 7,700 试次（每格 5 模板 $\times$ 10 重复）。因贪婪解码且固定单种子，
+同模板 10 次重复产生逐位相同对数概率。按（对象, 格, 模板）去重后，$N = 710$。
+
+\section{行为结果}
+
+强制诚实在 C$_3$ 端将虚构对象评分压至低于 C$_0$ 基线 0.39 分
+（95\% CI $[-0.47,\,-0.31]$），控制版不产生过冲（图~1）。
+因子分解显示``允许负面''效应量最大（$\beta = -1.23$），
+在 15 个全新伪词上 15/15 一致为负（$p < 10^{-5}$）。
+
+逐阶段定位进一步收紧推论空间。Tülu 子链两端（C$_1$, C$_2$）强制诚实评分均位于基线\emph{以上}
+（C$_1$: $+0.24$ [0.13,\,0.34], C$_2$: $+0.34$ [0.22,\,0.44]），未出现过冲。
+过冲仅在 C$_3$ 被观测到，表明 SFT$+$DPO 未独立安装该输出策略。
+``跌破基线''是一个关键信息节点：若偏差是信念变正，强制诚实最多压回基线水平，
+不应跌破。过冲表明模型习得的并非对这些对象的正向信念，
+而是可被指令揭去、矫枉过正的输出表达惯例。
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.58\linewidth]{fig3_forced_vs_control_honesty.png}
+\caption{强制诚实与控制诚实在四检查点上的对比。C$_3$ 端强制诚实跌破基线；
+C$_1$、C$_2$ 无过冲。误差线为 95\% 自助法 CI。}
+\label{fig:forced}
+\end{figure}
+
+以上行为结果排除了动机性认知，但尚未确定替代机制的形式：是简单格子偏移、
+歧义门控残余、还是系统语用推理。区分这些需要形式化模型：将竞争性理论转化为
+可拟合、可比较的数学结构，让数据裁决机制的有无与必要性。
+
+\section{认知模型}
+
+\subsection{模块化生成方程}
+
+所有模型以高斯似然在试次层拟合期望评分，L-BFGS-B 多起点优化。
+记 $b_t$ 为对象 $t$ 的自由截距。九个模型统一表达为：
+\begin{equation}\label{eq:modular}
+  \mu(t,\,s,\,c) = b_t + f_{\text{shift}}(s,\,c) \cdot g(b_t),
+\end{equation}
+$f_{\text{shift}}$ 为格子偏移函数，$g$ 为可选门控。不同模型通过约束二者的功能形式来定义（表~1）。
+
+\begin{table}[t]
+\centering\small
+\caption{模型定义。$k$ 为自由参数数（含 $b_t$ 与 $\sigma$）。}
+\label{tab:models}
+\begin{tabular}{llll}
+\toprule
+模型 & $f_{\text{shift}}(s,\,c)$ & $g(b_t)$ & $k$ \\
+\midrule
+Null（零模型） & $0$ & $1$ & 10 \\
+Add（加性基线） & $\beta_s + \gamma_c$ & $1$ & 23 \\
+Kunda（歧义门控） & $\delta_{s,c}$ & $\frac{4(b-1)(7-b)}{36}$ & 29 \\
+Kunda-nogate & $\delta_{s,c}$ & $1$ & 29 \\
+Kunda-freegate & $\delta_{s,c}$ & $\exp(-(b-p)^2 / 2w^2)$ & 31 \\
+Asym（符号不对称） & $\mathrm{sign}\cdot\alpha(s,\,\mathrm{dir})\cdot I(c)$ & 同 Kunda & 26 \\
+Asym-sym（对称对照） & $\mathrm{sign}\cdot\alpha(s)\cdot I(c)$ & 同 Kunda & 23 \\
+RSA（礼貌言者） & $\omega_{\text{pos}}\!\cdot\!7 + \omega_{\text{neg}}\!\cdot\!1 + (\omega_{\text{inf}}\!-\!1)b_t$ & $1$ & 48 \\
+RSA-cond（许可条件） & 同 RSA，$\omega_{\text{neg}}$ 约束为 ANOVA & $1$ & 34 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Kunda 族：歧义门控与消融}
+
+\citet{kunda1990motivated} 关于动机性推理的核心论断是``证据最模糊时最易被动机推动''。
+Kunda 模型将这一直觉实现为：$f_{\text{shift}} = \delta_{s,c}$（每格自由偏移），
+$g(b_t) = \tfrac{4(b-1)(7-b)}{36}$ 为开口向下的二次门（$b=4$ 处峰值 1）。
+其可检验约束在于：同一 $\delta_{s,c}$ 跨对象共享，仅被各对象的歧义程度调制。
+Kunda-nogate（$g \equiv 1$，去门）和 Kunda-freegate（门峰位 $p$ 与宽度 $w$ 自由）
+直接检验该约束。
+
+\subsection{Asym 族：静态符号不对称敏感度}
+
+人类存在乐观偏差：在强化学习任务中，个体对正性预测误差的学习率 $\alpha_+$
+高于对负性预测误差的学习率 $\alpha_-$
+~\citep{sharot2011optimism,lefebvre2017asymmetric}。
+需明确指出，\citet{sharot2011optimism} 与 \citet{lefebvre2017asymmetric}
+的原始模型是序贯 Rescorla-Wagner 更新的学习率参数；
+本研究每次评分是独立前向传播，无试次间结果反馈，真正的 RW 更新在结构上不适用。
+但乐观偏差的计算后果，即对正、负效价信息的不对称敏感性，
+并不天然依赖序贯更新过程。将序贯 RL 更新中的核心计算特征（不对称敏感度）
+从其算法载体（试次间误差修正）中分离出来，单独检验前者在 LLM 推理中是否存在，
+是将认知构念迁移到语言模型时的方法论前提。
+本文借此检验这一分离是否成立，而非声称实现了原 RL 模型。
+
+Asym 将这一抽象实现为 $f_{\text{shift}} = \mathrm{sign}(c) \cdot
+\alpha(s,\,\mathrm{dir}(c)) \cdot I(c)$，其中 $\alpha(s,\pm)$ 为阶段 $s$
+的静态敏感度（非学习率），$I(c)$ 为条件强度（默认条件锚定为~1）。
+效价方向 $\mathrm{dir}(c)$ 由提示设计先验确定：含反礼貌措辞为负向，其余为正向。
+该先验表独立于观测均值，消除了从数据反推符号的循环性。
+Asym-sym 为嵌套对称对照（$\alpha_+(s) = \alpha_-(s) \equiv \alpha(s)$，
+$\Delta df = 3$ 的似然比检验）。
+
+\subsection{RSA 族：礼貌言语的形式化}
+
+RSA 框架~\citep{frank2012pragmatic,yoon2020polite} 将说话人建模为在多效用间做 softmax
+选择的理性行动者。本研究将其连续化以适应李克特输出：每格预测评分为三个``拉力''的
+softmax 加权混合，分别拉向真相 $b_t$、正向社交锚（``客气''，$H_{\text{pos}} = 7$）、
+负向社交锚（``直率''，$H_{\text{neg}} = 1$）。RSA 为每格自由权重（48 参）；
+RSA-cond 将负向权重约束为``对话模板 $\times$ 允许负面''的 $2 \times 2$
+方差分析形式。
+
+\section{模型比较}
+
+\subsection{拟合与泛化}
+
+表~2 报告九个模型的 BIC 与 10 折分层交叉验证（CV）留出对数似然。
+分层按（阶段, 条件）格内均匀分配试次至 10 折。
+本研究以留出预测为首要判据。BIC 可被参数填充以提高，留出似然则不能。
+参数恢复 Spearman $\rho > 0.99$，模型恢复混淆矩阵对角，表明模型彼此可区分。
+
+\begin{table}[t]
+\centering\small
+\caption{模型比较（$N = 710$）。BIC 越小越好；CV 留出对数似然越接近 0 越好。最优值加粗。}
+\label{tab:fit}
+\begin{tabular}{lrrr}
+\toprule
+模型 & $k$ & BIC & CV 留出 $\log\mathcal{L}$ \\
+\midrule
+RSA & 48 & \textbf{870.6} & \textbf{$-319.8$} \\
+Kunda-nogate & 29 & 1241.8 & $-553.6$ \\
+Kunda-freegate & 31 & 1249.0 & $-549.5$ \\
+Kunda & 29 & 1274.1 & $-566.1$ \\
+Add & 23 & 1284.2 & $-587.0$ \\
+RSA-cond & 34 & 1300.5 & $-571.9$ \\
+Asym & 26 & 1401.0 & $-632.2$ \\
+Asym-sym & 23 & 1441.6 & $-661.6$ \\
+Null & 10 & 1717.7 & $-835.1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+RSA 在 BIC 与 CV 上同时大幅领先，CV $\Delta\log\mathcal{L}$ 相对于次优模型为 $+233.8$，
+与行为诊断方向一致。但 RSA 的 48 参较为灵活，优势部分来源于刻画能力；
+在近似简约度下，模型比较不能独立裁决两类账户；真正打破平衡的是强制诚实实验中
+低于基线的过冲。
+
+\subsection{歧义门被证伪}
+
+Kunda-nogate（BIC = 1241.8）在 BIC 上优于 Kunda（BIC = 1274.1），CV 同向
+（$-553.6$ vs.\ $-566.1$）。Kunda-freegate（BIC = 1249.0, CV $-549.5$）
+介于两者之间，未显著优于去门版。这一结果表明~\citet{kunda1990motivated}
+``歧义处最可塑''的具体机制不被数据需要，去掉门后模型反而更优。
+
+\subsection{符号不对称：稳健模式，非必需结构}
+
+在先验效价下，Asym 的敏感度估计为：C$_1$（SFT）$\alpha_+ = 0.48,\;\alpha_- \approx 0$；
+C$_2$（DPO）$\alpha_+ = 0.73,\;\alpha_- \approx 0$；C$_3$（Instruct）反转为
+$\alpha_- = 1.36 \gg \alpha_+ = 0.26$（图~2）。即 SFT/DPO 阶段仅对正向线索敏感，
+RLHF 阶段翻转为对负面许可高度敏感。
+
+该不对称性整体上相对于 Asym-sym 高度显著（$\mathrm{LR} = 60.3$, $df = 3$,
+$p < 0.001$），但主要由 C$_1$、C$_2$ 的单侧乐观所驱动。
+当检验聚焦于 C$_3$ 单阶段（令 C$_3$ 的 $\alpha_+ = \alpha_-$，
+保留 C$_1$、C$_2$ 自由）时，$\mathrm{LR} \approx 0$（$p \gg 0.05$），
+且 $\alpha_-(\mathrm{C}_3)$ 与 $I(c)$ 存在可辨识性混淆。
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.95\linewidth]{figure5_cogmodels.png}
+\caption{符号不对称敏感性的诊断。（A）各阶段的 $\alpha_+$ 与 $\alpha_-$
+（自助法 95\% CI）：SFT/DPO 仅正向敏感，Instruct 翻转为负向敏感占优。
+（B）逐阶段不对称量 $\alpha_- - \alpha_+$。（C）参数恢复（真值 vs.\ 回拟均值）。}
+\label{fig:cog}
+\end{figure}
+
+这一结果为 RSA 的胜出提供了一种计算解释：RLHF 反转可能并非需要独立参数的``结构''，
+而是柔性语用推理在 RLHF 数据中学习到的涌现性质。该反转作为点估计模式稳健
+（自助法 CI 排除 0），但数据不强制它作为独立的模型组件。
+
+后验预测检验中，C$_3$-forced 减 C$_0$-default 过冲观测为 $-0.356$，
+模拟 95\% CI $[-0.83,\,-0.19]$，2000 次模拟 100\% 产生负向过冲（格层 $R^2 = 0.98$），
+模型确能再生``跌破基线''这一关键定性签名。
+
+\section{讨论}
+
+本文的实验与计算证据共同收敛于一个结论：后训练 LLM 对虚构对象的正向评分偏差，
+其占优账户是输出层的表达策略，而非表征层的信念偏移。
+在实验端，强制诚实诊断使评分跌破基线，逐阶段定位表明过冲仅存于 Meta RLHF 配方；
+在计算端，RSA 礼貌言者以 $\Delta\mathrm{BIC} > 400$ 和
+CV $\Delta\log\mathcal{L} = +233.8$ 领先所有动机认知模型，歧义门控被明确证伪。
+建模的效用在于将描述性现象翻译为可检验的机制语言：
+``后训练到底改了什么''从看平均分差异，变为用模型刻画候选机制、用留出预测去裁决。
+
+本研究存在若干局限。其一，使用模型自生成数据而非人类数据，
+对认知建模本身无方法论贡献。其二，全部模型均为静态结构，
+Asym 借用了乐观偏差的不对称母题但不包含真正的序贯更新，已在命名上严格区分。
+其三，RSA 较为灵活，其优势部分来源于刻画能力。其四，证据限于单一模型族与单一评分范式。
+本文保留了两项负结果（歧义门被证伪、Asym 反转非结构必需），未将其淡化为稳健性检验。
+在认知建模中，证伪一个被明确预测的机制与确认一个机制具有同等的证据价值；
+诚实地报告``数据不要求这个机制''，比将数据事后合理化以支撑一个漂亮的机制叙事，
+是更负责任的做法。
+
+\bibliographystyle{plainnat}
+\nocite{*}
+\bibliography{references}
+
+\end{document}

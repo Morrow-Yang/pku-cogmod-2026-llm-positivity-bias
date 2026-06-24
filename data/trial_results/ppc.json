@@ -1,0 +1,32 @@
+{
+  "checks": [
+    {
+      "model": "M2_kunda_gated",
+      "observed_overshoot_contrast": -0.35602760314941406,
+      "sim_overshoot_mean": -0.5169345372985659,
+      "sim_overshoot_95ci": [
+        -0.8321455440316285,
+        -0.19337766785358565
+      ],
+      "frac_sims_overshoot_negative": 0.9995,
+      "regenerates_overshoot": true,
+      "cell_level_R2": 0.9826953490402924,
+      "trial_level_R2": 0.8650138835223393,
+      "n_sim": 2000
+    },
+    {
+      "model": "M3_asymmetric_belief",
+      "observed_overshoot_contrast": -0.35602760314941406,
+      "sim_overshoot_mean": -0.8408822544585051,
+      "sim_overshoot_95ci": [
+        -1.1903792567450306,
+        -0.48213159688391977
+      ],
+      "frac_sims_overshoot_negative": 1.0,
+      "regenerates_overshoot": true,
+      "cell_level_R2": 0.8186763832603803,
+      "trial_level_R2": 0.8340532487506395,
+      "n_sim": 2000
+    }
+  ]
+}

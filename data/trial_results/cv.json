@@ -1,0 +1,61 @@
+{
+  "k_folds": 10,
+  "n_trials": 710,
+  "results": [
+    {
+      "model": "M0_linear_additive",
+      "cv_loglik": -587.0089973529427,
+      "cv_rmse": 0.551655801770504,
+      "cv_loglik_per_trial": -0.82677323570837
+    },
+    {
+      "model": "M1_null",
+      "cv_loglik": -835.0551552004281,
+      "cv_rmse": 0.7838903074731057,
+      "cv_loglik_per_trial": -1.1761340214090537
+    },
+    {
+      "model": "M2_kunda_gated",
+      "cv_loglik": -566.0722384885008,
+      "cv_rmse": 0.5353512503934205,
+      "cv_loglik_per_trial": -0.7972848429415504
+    },
+    {
+      "model": "M2_nogate",
+      "cv_loglik": -553.592164365332,
+      "cv_rmse": 0.5257286373174487,
+      "cv_loglik_per_trial": -0.7797072737539887
+    },
+    {
+      "model": "M2_freegate",
+      "cv_loglik": -549.4786444823867,
+      "cv_rmse": 0.5227289389034563,
+      "cv_loglik_per_trial": -0.7739135837780095
+    },
+    {
+      "model": "M3_symmetric_belief",
+      "cv_loglik": -661.5716968940529,
+      "cv_rmse": 0.61319799286694,
+      "cv_loglik_per_trial": -0.93179112238599
+    },
+    {
+      "model": "M3_asymmetric_belief",
+      "cv_loglik": -632.1895012502083,
+      "cv_rmse": 0.5883304043100837,
+      "cv_loglik_per_trial": -0.89040774823973
+    },
+    {
+      "model": "M4_rsa_polite_speaker",
+      "cv_loglik": -319.7465696242417,
+      "cv_rmse": 0.3774581823488301,
+      "cv_loglik_per_trial": -0.45034728116090383
+    },
+    {
+      "model": "M5_rsa_license_conditional",
+      "cv_loglik": -571.8492543911442,
+      "cv_rmse": 0.5395677739117566,
+      "cv_loglik_per_trial": -0.8054214850579495
+    }
+  ],
+  "best_by_cv_loglik": "M4_rsa_polite_speaker"
+}

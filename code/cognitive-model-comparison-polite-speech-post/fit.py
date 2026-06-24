@@ -14,6 +14,7 @@ from scipy.optimize import minimize
 
 from data import load_trials
 from models import (Model0LinearAdditive, Model1Null, Model2KundaGated,
+                    Model2NoGate, Model2FreeGate,
                     Model3AsymmetricBelief, Model3SymmetricBelief,
                     Model4RSAPoliteSpeaker, Model5RSALicenseConditional)
 
@@ -22,15 +23,20 @@ DIR_PRIOR = Path("experiments/results/stage-base-vs-instruct-positivity-prior")
 OUT_DIR = Path("experiments/results/cognitive-model-comparison-polite-speech-post")
 
 
-def _single_fit(model, df, init, maxiter=10000):
+def _single_fit(model, df, init, maxiter=50000):
+    # maxiter/maxfun raised 2026-06-21: the RSA models (M4/M5) need a larger
+    # iteration budget to satisfy L-BFGS-B's convergence criterion. At the old
+    # 10000 cap they returned success=False at the *correct* optimum (identical
+    # NLL), which falsely looked like a degenerate fit. With this budget they
+    # converge cleanly (CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH).
     return minimize(
         model.neg_log_likelihood, init, args=(df,),
         method="L-BFGS-B", bounds=model.bounds(df),
-        options={"maxiter": maxiter, "ftol": 1e-10, "gtol": 1e-7},
+        options={"maxiter": maxiter, "maxfun": 200000, "ftol": 1e-12, "gtol": 1e-8},
     )
 
 
-def fit_multi_start(model, df, n_starts=5, seed=0, maxiter=10000):
+def fit_multi_start(model, df, n_starts=5, seed=0, maxiter=50000):
     """Run several random starts; return the best result."""
     rng = np.random.default_rng(seed)
     init = model.init_params(df)
@@ -65,6 +71,8 @@ def main():
         ("M0_linear_additive", Model0LinearAdditive(), 3),
         ("M1_null", Model1Null(), 1),
         ("M2_kunda_gated", Model2KundaGated(), 3),
+        ("M2_nogate", Model2NoGate(), 3),
+        ("M2_freegate", Model2FreeGate(), 3),
         ("M3_symmetric_belief", Model3SymmetricBelief(), 3),
         ("M3_asymmetric_belief", Model3AsymmetricBelief(), 5),
         ("M4_rsa_polite_speaker", Model4RSAPoliteSpeaker(), 7),
